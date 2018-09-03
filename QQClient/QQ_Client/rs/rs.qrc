@@ -1,0 +1,58 @@
+<RCC>
+    <qresource prefix="/sys">
+        <file>img/sf.jpg</file>
+        <file>img/check.png</file>
+        <file>img/top.png</file>
+        <file>img/keyborad.png</file>
+        <file>search.png</file>
+        <file>arrow_d.png</file>
+        <file>arrow_r.png</file>
+        <file>arrow_r_g.png</file>
+        <file>back.png</file>
+        <file>qlogo.png</file>
+        <file>qqicon_p_blue.png</file>
+        <file>qqicon_p_gray.png</file>
+        <file>qqicon_q_blue.png</file>
+        <file>qqicon_q_gray.png</file>
+        <file>qqicon_t_blue.png</file>
+        <file>qqicon_t_gray.png</file>
+        <file>qq_tool_mail.png</file>
+        <file>qq_tool_skin.png</file>
+        <file>qq_tool_talk.png</file>
+        <file>qq_tool_zone.png</file>
+        <file>level.png</file>
+        <file>color_panle.png</file>
+        <file>mainform_minimize.png</file>
+        <file>mainform_shutdown.png</file>
+        <file>img/blue70-2.gif</file>
+        <file>Chat/chat_cut.png</file>
+        <file>Chat/chat_expression.png</file>
+        <file>Chat/chat_history.png</file>
+        <file>Chat/chat_more.png</file>
+        <file>Chat/chat_sendfile.png</file>
+        <file>Chat/chat_sendpic.png</file>
+        <file>Chat/chat_show.jpg</file>
+        <file>img/log_setting.png</file>
+    </qresource>
+    <qresource prefix="/media/qun">
+        <file>media/qun/1.png</file>
+        <file>media/qun/2.png</file>
+        <file>media/qun/3.png</file>
+        <file>media/qun/4.png</file>
+    </qresource>
+    <qresource prefix="/media/person">
+        <file>media/person/1.jpg</file>
+        <file>media/person/2.jpg</file>
+        <file>media/person/3.jpg</file>
+        <file>media/person/4.jpg</file>
+        <file>media/person/5.jpg</file>
+        <file>media/person/6.jpg</file>
+        <file>media/person/7.jpg</file>
+        <file>media/person/8.jpg</file>
+    </qresource>
+    <qresource prefix="/media/wether">
+        <file>media/wether/1.png</file>
+        <file>media/wether/2.png</file>
+        <file>media/wether/3.png</file>
+    </qresource>
+</RCC>

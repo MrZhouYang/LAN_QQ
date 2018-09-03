@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainForm</class>
+ <widget class="QWidget" name="MainForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>298</width>
+    <height>665</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/*定义全局滚动条样式*/
+	
+ QScrollBar:vertical {
+     width: 10px;
+	 border: 0px;
+ }
+ 
+  QScrollBar:vertical:hover {
+	 background: rgb(221,225,228);
+ }
+
+
+ QScrollBar::handle:vertical {
+    background: rgb(198,201,203);
+    border-radius:5px;
+ }
+
+
+ QScrollBar::add-line:vertical {
+     border: 0px;
+     height: 0px;
+ }
+
+ QScrollBar::sub-line:vertical {
+     border:0px;
+     height: 0px;
+ }
+
+ QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+     border: 0px;
+	 
+ }
+
+ QScrollBar::add-page:vertical{
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+ }
+
+QScrollBar::sub-page:vertical {
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+ }
+
+ QScrollBar::add-page:vertical:hover, QScrollBar::sub-page:vertical:hover {
+	background: rgb(221,225,228);
+ }
+
+/********************************/
+ 
+ QScrollBar:horizontal {
+     border: 0px;
+     height: 10px;
+ }
+
+
+ QScrollBar::handle:horizontal {
+     background: rgba(69,124,216,150);
+      
+ }
+
+ 
+ QScrollBar::add-line:horizontal {
+     border: 0px;
+     width: 0px;
+ }
+
+ QScrollBar::sub-line:horizontal {
+     border:0px;
+     width: 0px;
+ }
+ QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal {
+     border: 0px;
+ }
+
+ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+     background: rgba(0,0,0,0);
+ }
+
+
+ 
+/*滚动条样式定义结束*/
+
+
+</string>
+  </property>
+  <widget class="QWidget" name="main_widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>6</y>
+     <width>286</width>
+     <height>653</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">*{
+	font: 9pt &quot;微软雅黑&quot;;
+}
+
+#main_widget{
+	border-radius:2px;
+	border-image: url(:/sys/back.png) 5;
+}
+
+#centralwidget{
+	border-radius:2px;
+}
+
+/*上部用户信息区域*/
+#main_top{
+	
+}
+
+#label_logo_name{
+	color:#fff;
+	font-size:9pt;
+}
+
+/*昵称，等级，签名等位置定义*/
+#top_names *{
+	color:#fff;
+}
+
+#top_names #label_nick{
+	font-size:12pt;
+}
+
+#top_names #label_status{
+	 
+}
+
+#top_names QLineEdit{
+	color:#fff;
+	font-size:10pt;
+	background-color: rgba(255, 255, 255,0);
+	border:none;
+	border-radius:2px;
+	 
+}
+
+#top_names QLineEdit:focus{
+	background-color: rgb(255, 255, 255); 
+	color:#000;
+	border:1px solid rgb(213, 213, 213);
+}
+
+#top_names QLineEdit:hover{
+	 border:1px solid rgba(0,0,0,100);
+}
+
+/*缩小及关闭按钮*/
+#top_title QPushButton{
+	border:none;
+	width:20px;
+	height:20px;
+	border-radius:2px;
+}
+
+#top_title QPushButton:hover{
+   border:1px solid rgb(13, 97, 137);
+   
+}
+
+#top_title QPushButton#pushButton_minimize{
+	background-image: url(:/sys/mainform_minimize.png);
+}
+
+#top_title QPushButton#pushButton_shutdown{
+	background-image: url(:/sys/mainform_shutdown.png);
+}
+
+
+/*工具栏图标定义*/
+#top_tools QPushButton{
+	border:none;
+	width:24px;
+	height:20px;
+	border-radius:2px;
+}
+
+#top_tools QPushButton:hover{
+   border:1px solid rgb(13, 97, 137);
+   
+}
+
+/*搜索框*/
+QLineEdit#search{
+	padding:6px;
+	border:none;
+	background-color: rgba(0,0,0,60);
+	color: rgb(229, 229, 229);
+	background-image: url(:/sys/search.png);
+	background-repeat:no;
+	background-position:right center;
+	background-origin: content;
+	
+}
+
+#search:focus{
+	background-color: #fff;
+	color: #000;
+	border-bottom:1px solid #ccc;
+}
+
+#center_stack QWidget{
+	/*background-color: #E8F5FC;*/
+	background-color: rgba(255, 255, 255,230);
+}
+
+#center_stack QWidget&gt;QWidget{
+	/*background-color: #E8F5FC;*/
+	background-color: rgba(255, 255, 255,0);
+}
+
+
+#center_nav{
+	min-height:38px;
+	border-bottom:1px solid rgb(211, 225, 226);
+	background-color: rgba(255, 255, 255,230);
+}
+
+#center_nav QPushButton{
+	border:none;
+	background-repeat:none;
+	background-position:center;
+	height:38px;
+
+}
+
+/*联系人列表图标定义---------开始*/
+#center_nav QPushButton#pushButton_p{
+	background-image: url(:/sys/qqicon_p_gray.png);
+}
+
+#center_nav QPushButton#pushButton_p:hover{
+	background-image: url(:/sys/qqicon_p_blue.png);
+}
+
+
+#center_nav QPushButton#pushButton_q{
+	background-image: url(:/sys/qqicon_q_gray.png);
+}
+
+#center_nav QPushButton#pushButton_q:hover{
+	background-image: url(:/sys/qqicon_q_blue.png);
+}
+
+
+
+#center_nav QPushButton#pushButton_t{
+	background-image: url(:/sys/qqicon_t_gray.png);
+}
+
+#center_nav QPushButton#pushButton_t:hover{
+	background-image: url(:/sys/qqicon_t_blue.png);
+}
+
+/*联系人列表图标定义-----------结束*/
+
+
+
+#main_bottom{
+	border-bottom-left-radius:2px;
+	border-bottom-right-radius:2px;
+	border-top:1px solid rgba(0,0,0,40);
+	background-color: rgba(255,255,255,190);
+}
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="leftMargin">
+     <number>3</number>
+    </property>
+    <property name="topMargin">
+     <number>3</number>
+    </property>
+    <property name="rightMargin">
+     <number>3</number>
+    </property>
+    <property name="bottomMargin">
+     <number>3</number>
+    </property>
+    <item>
+     <widget class="QWidget" name="centralwidget" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>280</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#centralwidget{
+	background-color: rgb(22, 154, 218);
+}</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QWidget" name="main_top" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QWidget" name="top_title" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QLabel" name="label_logo">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../rs/rs.qrc">:/sys/qlogo.png</pixmap>
+               </property>
+               <property name="scaledContents">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_logo_name">
+               <property name="text">
+                <string>QQ</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>201</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_minimize">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_shutdown">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="top_names" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,0">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>9</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QWidget" name="widget_2" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_5">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout">
+                    <item>
+                     <widget class="QLabel" name="label_nick">
+                      <property name="text">
+                       <string>飞翔的企鹅</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_status">
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="pixmap">
+                       <pixmap resource="../../rs/rs.qrc">:/sys/level.png</pixmap>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_3">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit">
+                    <property name="focusPolicy">
+                     <enum>Qt::ClickFocus</enum>
+                    </property>
+                    <property name="text">
+                     <string>不忘初心，方得始终</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="wether_widget" native="true">
+               <property name="minimumSize">
+                <size>
+                 <width>55</width>
+                 <height>55</height>
+                </size>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_4">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap resource="../../rs/rs.qrc">:/media/wether/media/wether/3.png</pixmap>
+                  </property>
+                  <property name="scaledContents">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="top_tools" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>9</number>
+             </property>
+             <property name="topMargin">
+              <number>4</number>
+             </property>
+             <property name="bottomMargin">
+              <number>4</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="pushButton_zone">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../rs/rs.qrc">
+                 <normaloff>:/sys/qq_tool_zone.png</normaloff>:/sys/qq_tool_zone.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_mail">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../rs/rs.qrc">
+                 <normaloff>:/sys/qq_tool_mail.png</normaloff>:/sys/qq_tool_mail.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>161</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_skin">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../rs/rs.qrc">
+                 <normaloff>:/sys/qq_tool_skin.png</normaloff>:/sys/qq_tool_skin.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_talk">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../rs/rs.qrc">
+                 <normaloff>:/sys/qq_tool_talk.png</normaloff>:/sys/qq_tool_talk.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="search">
+            <property name="palette">
+             <palette>
+              <active>
+               <colorrole role="WindowText">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>229</red>
+                  <green>229</green>
+                  <blue>229</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Button">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="60">
+                  <red>0</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Text">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>229</red>
+                  <green>229</green>
+                  <blue>229</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="ButtonText">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>229</red>
+                  <green>229</green>
+                  <blue>229</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Base">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="60">
+                  <red>0</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Window">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="60">
+                  <red>0</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
+              </active>
+              <inactive>
+               <colorrole role="WindowText">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>229</red>
+                  <green>229</green>
+                  <blue>229</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Button">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="60">
+                  <red>0</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Text">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>229</red>
+                  <green>229</green>
+                  <blue>229</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="ButtonText">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>229</red>
+                  <green>229</green>
+                  <blue>229</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Base">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="60">
+                  <red>0</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Window">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="60">
+                  <red>0</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
+              </inactive>
+              <disabled>
+               <colorrole role="WindowText">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>229</red>
+                  <green>229</green>
+                  <blue>229</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Button">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="60">
+                  <red>0</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Text">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>229</red>
+                  <green>229</green>
+                  <blue>229</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="ButtonText">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>229</red>
+                  <green>229</green>
+                  <blue>229</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Base">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="60">
+                  <red>0</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Window">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="60">
+                  <red>0</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
+              </disabled>
+             </palette>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::ClickFocus</enum>
+            </property>
+            <property name="text">
+             <string>搜索</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="main_center" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QWidget" name="center_nav" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="pushButton_p">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_q">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_t">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QStackedWidget" name="center_stack">
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="page_4"/>
+            <widget class="QWidget" name="page_5">
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <item>
+               <widget class="QPushButton" name="pushButton_9">
+                <property name="text">
+                 <string>PushButton</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="page_6">
+             <widget class="QPushButton" name="pushButton_10">
+              <property name="geometry">
+               <rect>
+                <x>11</x>
+                <y>175</y>
+                <width>258</width>
+                <height>28</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="main_bottom" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>60</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../../rs/rs.qrc"/>
+ </resources>
+ <connections/>
+</ui>

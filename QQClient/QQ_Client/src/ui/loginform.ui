@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LoginForm</class>
+ <widget class="QWidget" name="LoginForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>448</width>
+    <height>347</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>登录QQ</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../rs/rs.qrc">
+    <normaloff>:/sys/qlogo.png</normaloff>:/sys/qlogo.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">*{
+	font: 75 9pt &quot;微软雅黑&quot;;
+}
+
+#LoginForm{
+	
+	
+}
+
+#login_main_widget{
+	
+	background-color: rgb(255, 170, 127,0);
+	border-image: url(:/sys/back.png) 5;
+}
+
+#login_top_widget{
+	background-color: #09A3DC;
+	border-top-left-radius:4px;
+	border-top-right-radius:4px;
+}
+
+
+#login_top_widget QLabel{
+	border-top-left-radius:4px;
+	border-top-right-radius:4px;
+}
+
+
+/*登录信息填写部分总容器*/
+#login_con_widget{
+	 
+	background-color: #EBF2F9;	
+	border-bottom-left-radius:4px;
+	border-bottom-right-radius:4px;
+}
+
+/*输入框基本样式*/
+#login_con_widget QLineEdit{
+	
+	border:1px solid rgb(209,209,209);
+	height:28px;   /*子控件高度*/
+	font-size:10pt;
+	padding-left:6px;
+	padding-right:6px;
+	
+}
+
+/*输入框悬停样式*/
+#login_con_widget QLineEdit:hover{
+	
+	border:1px solid rgb(21,131,221) /*鼠标悬停在输入框上时边框变蓝*/
+	
+}
+
+/*用户名输入框样式*/
+#login_con_widget QLineEdit#lineEdit_ID{
+	border-top-left-radius:4px;
+	border-top-right-radius:4px;
+	
+}
+
+/*密码输入框基本样式*/
+#login_con_widget QLineEdit#lineEdit_pass{
+	border-top-width:0px;
+	border-bottom-left-radius:4px;
+	border-bottom-right-radius:4px;
+	background-image: url(:/sys/img/keyborad.png);
+	background-repeat:no;
+	background-position:right center;
+	background-origin: content;
+   
+}
+
+/*密码输入框在悬停时显示*/
+#login_con_widget QLineEdit#lineEdit_pass:hover{
+	border-top-width:1px;
+}
+
+
+/*标签基本样式*/
+#login_con_widget QLabel{
+
+	color: #09A3DC;
+}
+
+/*标签悬停*/
+#login_con_widget QLabel:hover{
+	color: rgba(9, 163, 220 ,120); /* 鼠标悬停在标签上时标签的字体颜色变为半透明的蓝色*/
+}
+
+/*复选框文字基本样式*/
+#login_con_widget QCheckBox{
+	color:rgb(145, 145, 145);
+}
+
+/*复选框方框部分基本样式*/
+#login_con_widget QCheckBox::indicator {
+	border:1px solid #B2B2B2;
+}
+
+/*复选框方框部分选中样式*/
+#login_con_widget QCheckBox::indicator:checked {
+	border:1px solid #278CDE;
+	background-image: url(:/sys/img/check.png);  /*选中时复选框填充蓝色对勾*/
+}
+
+/*复选框方框部分悬停*/
+#login_con_widget QCheckBox::indicator:hover {
+	 border:1px solid #278CDE;      /*悬停时复选框的边框变蓝*/
+}
+
+
+/*定义头像样式*/
+#label_touxiang{
+	border-radius:4px;	
+	border-image: url(:/media/person/media/person/8.jpg) 1; /*头像图片*/
+	
+}
+
+/*登录按钮样式*/
+#pushButton_login{
+	border-radius:4px;
+	border:none;
+	background-color: #09A3DC;
+	color:#fff;
+}
+
+/*登录按钮鼠标悬停样式*/
+#pushButton_login:hover{
+	background-color:rgb(60,195,245); /*悬停时变为半透明*/
+}
+</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>6</number>
+   </property>
+   <property name="topMargin">
+    <number>6</number>
+   </property>
+   <property name="rightMargin">
+    <number>6</number>
+   </property>
+   <property name="bottomMargin">
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QWidget" name="login_main_widget" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>433</width>
+       <height>332</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>433</width>
+       <height>332</height>
+      </size>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="WindowText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>255</red>
+           <green>170</green>
+           <blue>127</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>255</red>
+           <green>170</green>
+           <blue>127</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>255</red>
+           <green>170</green>
+           <blue>127</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="WindowText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>255</red>
+           <green>170</green>
+           <blue>127</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>255</red>
+           <green>170</green>
+           <blue>127</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>255</red>
+           <green>170</green>
+           <blue>127</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="WindowText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>120</red>
+           <green>120</green>
+           <blue>120</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>255</red>
+           <green>170</green>
+           <blue>127</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>255</red>
+           <green>170</green>
+           <blue>127</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>255</red>
+           <green>170</green>
+           <blue>127</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
+      <item>
+       <widget class="QWidget" name="login_top_widget" native="true">
+        <property name="styleSheet">
+         <string notr="true">/*缩小及关闭按钮*/
+#login_top_widget QLabel{
+	border:none;
+	width:20px;
+	height:20px;
+	border-radius:2px;
+}
+
+#login_top_widget QLabel:hover{
+   border:1px solid rgb(13, 97, 137);
+   
+}
+
+#login_top_widget QLabel#label_minimize{
+	background-image: url(:/sys/mainform_minimize.png);
+}
+
+#login_top_widget QLabel#label_shutdown{
+	background-image: url(:/sys/mainform_shutdown.png);
+}
+
+#login_top_widget QLabel#label_setting{
+	background-image: url(:/sys/img/log_setting.png);
+}
+</string>
+        </property>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>427</width>
+           <height>176</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_minimize">
+         <property name="geometry">
+          <rect>
+           <x>370</x>
+           <y>10</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_shutdown">
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>10</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_setting">
+         <property name="geometry">
+          <rect>
+           <x>340</x>
+           <y>10</y>
+           <width>31</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="login_con_widget" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="palette">
+         <palette>
+          <active>
+           <colorrole role="Button">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>235</red>
+              <green>242</green>
+              <blue>249</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>235</red>
+              <green>242</green>
+              <blue>249</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Window">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>235</red>
+              <green>242</green>
+              <blue>249</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </active>
+          <inactive>
+           <colorrole role="Button">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>235</red>
+              <green>242</green>
+              <blue>249</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>235</red>
+              <green>242</green>
+              <blue>249</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Window">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>235</red>
+              <green>242</green>
+              <blue>249</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </inactive>
+          <disabled>
+           <colorrole role="Button">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>235</red>
+              <green>242</green>
+              <blue>249</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>235</red>
+              <green>242</green>
+              <blue>249</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Window">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>235</red>
+              <green>242</green>
+              <blue>249</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </disabled>
+         </palette>
+        </property>
+        <widget class="QLabel" name="label_touxiang">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>12</y>
+           <width>80</width>
+           <height>80</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_ID">
+         <property name="geometry">
+          <rect>
+           <x>132</x>
+           <y>12</y>
+           <width>195</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>stormZhou</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_pass">
+         <property name="geometry">
+          <rect>
+           <x>132</x>
+           <y>42</y>
+           <width>195</width>
+           <height>29</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>it's pass?</string>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Register">
+         <property name="geometry">
+          <rect>
+           <x>340</x>
+           <y>18</y>
+           <width>61</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>注册账号</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_GetPwd">
+         <property name="geometry">
+          <rect>
+           <x>340</x>
+           <y>50</y>
+           <width>61</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>找回密码</string>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="checkBox">
+         <property name="geometry">
+          <rect>
+           <x>132</x>
+           <y>74</y>
+           <width>91</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>记住密码</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="checkBox_2">
+         <property name="geometry">
+          <rect>
+           <x>260</x>
+           <y>74</y>
+           <width>91</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>自动登录</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_login">
+         <property name="geometry">
+          <rect>
+           <x>132</x>
+           <y>106</y>
+           <width>195</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>195</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>登录</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="cbx_Status">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>100</y>
+           <width>81</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>在线</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>隐身</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>忙绿</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>离开</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>勿扰</string>
+          </property>
+         </item>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../rs/rs.qrc"/>
+ </resources>
+ <connections/>
+</ui>
