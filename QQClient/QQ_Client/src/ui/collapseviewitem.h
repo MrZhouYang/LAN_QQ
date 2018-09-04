@@ -11,6 +11,8 @@ Changes：
 #include <QWidget>
 #include <QList>
 #include <QVBoxLayout>
+#include <QMenu>
+#include <QAction>
 
 namespace Ui {
 class CollapseViewItem;
@@ -61,6 +63,16 @@ public:
     int getSize();
 
 
+protected:
+    //void mousePressEvent(QMouseEvent *event);
+
+    bool eventFilter(QObject *watched, QEvent *event);
+
+signals:
+    void renameBoxSignal(const QString & title);
+    void removeBoxSignal(const QString & title);
+
+
 private slots:
 
     /**
@@ -68,11 +80,17 @@ private slots:
      */
     void onCollapseButClick();
 
+    void createMenu(); //创建右键弹出菜单
+    void onClickRightButton();
+    void renameBox();
+    void removeBox();
+
 private:
     Ui::CollapseViewItem *ui;
 
     QVBoxLayout *item_con_layout;
     QList<QWidget *> m_itemList; //保存着该好友列表选项卡中的好友项目
+    QMenu *m_menu;//右键弹出菜单
 };
 
 #endif // COLLAPSEVIEWITEM_H

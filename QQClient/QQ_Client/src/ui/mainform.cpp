@@ -329,14 +329,12 @@ bool MainForm::addFriendButton(const FriendInformation & friInfo)
         CollapseViewItem *listItem = new CollapseViewItem(groupName);
 
         //待完成 first
-//        connect(listItem, SIGNAL(removeBoxSignal(QString)),
-//                this, SLOT(removeBox(QString)));
-//        connect(listItem, SIGNAL(renameBoxSignal(QString)),
-//                this, SLOT(renameBox(QString)));
+        connect(listItem, SIGNAL(removeBoxSignal(QString)),
+                this, SLOT(removeBox(QString)));
+        connect(listItem, SIGNAL(renameBoxSignal(QString)),
+                this, SLOT(renameBox(QString)));
 
         m_listItemsFriendsVec.push_back(listItem);
-//        toolBox->addItem(toolItem);
-//        m_friendListWidget->addItem(toolBox);
         m_friendListWidget->addItem(listItem);
 
         // 存储映射关系
@@ -451,3 +449,107 @@ void MainForm::onThemeColorChange(QString colorStr)
 
 }
 
+/*************************************************
+Function Name： removeBox
+Description: 删除好友分组
+*************************************************/
+void MainForm::removeBox(const QString & title){
+    QMessageBox::StandardButton returnBtn;
+
+    returnBtn = QMessageBox::question(NULL,tr("删除分组"),
+                                      QString(tr("你确定要删除分组(%1)吗？")).arg(title),
+                                      QMessageBox::Yes |QMessageBox::No, QMessageBox::No);
+    if(QMessageBox::No == returnBtn)
+        return;
+
+    int index = m_indexFriendsGroupMap[title];
+
+    if(m_listItemsFriendsVec[index]->getSize() >0){
+        QMessageBox::information(NULL,tr("删除组失败"),tr("无法删除，因为该组中还有组员!"));
+        return;
+    }
+
+    m_listItemsFriendsVec[index]->deleteLater();
+    m_listItemsFriendsVec[index]=NULL;
+    m_friendsGroupList.removeAt(m_friendsGroupList.indexOf(title));
+    //删除映射
+    m_indexFriendsGroupMap.remove(title);
+
+    //待完成 2018.9.4
+//    if (m_messageManWidget != NULL)
+//        m_messageManWidget->setListModelGroup();
+//    refreshFriendButtonMenu();
+}
+
+/*************************************************
+Function Name： renameBox
+Description: 重命名组
+*************************************************/
+void MainForm::renameBox(const QString & title)
+{
+    bool isOk = false;
+    QString newTitle = QInputDialog::getText(NULL, "重命名分组",
+                                           "请输入新的分组名",
+                                           QLineEdit::Normal,
+                                           title,
+                                           &isOk);
+    if (!isOk)
+        return;
+
+    if (m_indexFriendsGroupMap.contains(newTitle))
+    {
+        QMessageBox::information(NULL, tr("重命名分组"), tr("失败，因为存在同名的组！"));
+        return;
+    }
+
+    int index = m_indexFriendsGroupMap.value(title);
+
+    //待完成 2018.9.4
+//    if (m_listItemsFriendsVec[index]->getSize() <= 0)
+//    {
+//        renameBoxSuccess(title, newTitle);
+//        refreshFriendButtonMenu();
+//        return;
+//    }
+
+//    if (0 != newTitle.compare(title))
+//    {
+//        m_mainCtrl->renameBox(title, newTitle);
+//    }
+}
+
+/*************************************************
+Function Name： renameBoxSuccess
+Description: 重命名分组成功
+*************************************************/
+void MainForm::renameBoxSuccess(const QString & title, const QString & newTitle)
+{
+    // 先修改： 组名 与 下标 映射表
+    int index = m_indexFriendsGroupMap.value(title);
+    m_indexFriendsGroupMap.remove(title);
+    m_indexFriendsGroupMap.insert(newTitle, index);
+
+    // 通过 存储每个分组的向量 获取分组 item ，再修改组名
+    m_listItemsFriendsVec[index]->setTitleText(newTitle);
+
+    m_friendsGroupList[m_friendsGroupList.indexOf(title)] = newTitle;
+
+    //待完成 2018.9.4
+//    if (m_messageManWidget != NULL)
+//        m_messageManWidget->setListModelGroup();
+    //refreshFriendButtonMenu();
+}
+
+/*************************************************
+Function Name： refreshFriendButtonMenu
+Description: 刷新好友按钮右键菜单
+*************************************************/
+void MainForm::refreshFriendButtonMenu()
+{
+    //待完成 2018.9.4
+//    QMapIterator<QString, LitterIem *> iter(m_friendMap);
+//     while (iter.hasNext()) {
+//         iter.next();
+//         iter.value()->refreshMoveMenu();
+//     }
+}

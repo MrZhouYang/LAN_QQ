@@ -66,6 +66,8 @@ public slots:
     bool addFriendButton(const FriendInformation &);
     // 获取好友列表
     void getFriendsInformation();
+    // 重命名分组成功
+    void renameBoxSuccess(const QString & title, const QString & newTitle);
 
 protected:
       QWidget*getDragnWidget();
@@ -105,6 +107,7 @@ private:
 
     //清空容器
     void clearContainers();
+    void refreshFriendButtonMenu();
 
 
 
@@ -119,6 +122,10 @@ private slots:
     void closeWindow();
     // 关闭所有别的窗口
     void closeAllWindows();
+    // 删除该好友分组
+    void removeBox(const QString &);
+    // 重命名该好友组
+    void renameBox(const QString &);
 
 
 };

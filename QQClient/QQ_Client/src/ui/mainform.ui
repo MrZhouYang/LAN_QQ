@@ -219,15 +219,36 @@ QLineEdit#search{
 }
 
 #center_stack QWidget{
-	/*background-color: #E8F5FC;*/
 	background-color: rgba(255, 255, 255,230);
 }
 
 #center_stack QWidget&gt;QWidget{
-	/*background-color: #E8F5FC;*/
 	background-color: rgba(255, 255, 255,0);
 }
 
+#center_stack QMenu{
+	background-color:rgb(89,87,87); /*整个背景*/
+    border: 3px solid rgb(235,110,36);/*整个菜单边缘*/
+}
+
+#center_stack QMenu::item{
+	font-size: 9pt; 
+    color: rgb(225,225,225);  /*字体颜色*/
+    border: 1px solid rgb(60,60,60);    /*item选框*/
+    background-color:rgb(89,87,87);
+    padding:3px 3px; /*设置菜单项文字上下和左右的内边距，效果就是菜单中的条目左右上下有了间隔*/
+    margin:2px 2px;/*设置菜单项的外边距*/
+}
+
+#center_stack QMenu::item:selected{
+	background-color:rgb(235,110,36);/*选中的样式*/
+}
+
+#center_stack QMenu::item:pressed{
+    /*菜单项按下效果*/
+	border: 1px solid rgb(60,60,61); 
+	background-color: rgb(220,80,6);
+}
 
 #center_nav{
 	min-height:38px;
