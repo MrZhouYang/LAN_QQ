@@ -9,45 +9,6 @@
 //主窗口与屏幕边缘的距离
 int MAIN_FORM_OADDING =10;
 
-//MainForm::MainForm(QString userName, QString nickName, int port, QWidget *parent) :
-//    MoveableFramelessWindow(parent),port_number(port),m_nickName(nickName),
-//    ui(new Ui::MainForm)
-//{
-//    ui->setupUi(this);
-
-//    ui->label_nick->setText(nickName);
-
-//    page4_layout = new QVBoxLayout(this);
-//    page4_layout->setContentsMargins(0,0,0,0);//设置上下左右的边距均为0
-//    page4_layout->setSpacing(0); //This property holds the spacing between widgets inside the layout.
-//    ui->page_4->setLayout(page4_layout);
-
-//    //在布局中加入联系人列表
-//    collapseView_p = new CollapseView(userName,nickName);
-//    page4_layout->addWidget(collapseView_p);
-
-//    //为每个好友项的双击信号进行关联
-//    for(int i=0; i<collapseView_p->Get_item_contact_p()->Get_itemv_size(); ++i){
-//        connect(collapseView_p->Get_item_contact_p()->Get_item_P(i),SIGNAL(wake_message_to(int,QString)),this,SLOT(WakeChat(int,QString)));
-//    }
-
-//    //关联切换皮肤颜色按钮事件
-//    connect(ui->pushButton_skin,SIGNAL(clicked()),this,SLOT(doChangeColor()));
-
-//    //获取屏幕
-//    QDesktopWidget* desktopWidget = QApplication::desktop();
-
-//    //得到屏幕宽度
-//    int screenWidth = desktopWidget->width();
-
-//    //转移到右边
-//    this->move(screenWidth-MAIN_FORM_OADDING-this->width(),MAIN_FORM_OADDING);
-
-
-//    connect(ui->pushButton_minimize,SIGNAL(pressed()),this,SLOT(on_PB_minimize_clicked()));
-//    connect(ui->pushButton_shutdown,SIGNAL(pressed()),this,SLOT(on_PB_shutdown_clicked()));
-//}
-
 MainForm::MainForm(const UserInformation me, QWidget *parent) :
     MoveableFramelessWindow(parent),m_datebase(me.m_userID),
     ui(new Ui::MainForm)
@@ -130,6 +91,11 @@ void MainForm::linkSignalWithSlot(){
     connect(ui->pushButton_minimize,SIGNAL(pressed()),this,SLOT(on_PB_minimize_clicked()));
     connect(ui->pushButton_shutdown,SIGNAL(pressed()),this,SLOT(on_PB_shutdown_clicked()));
 
+    //关联tab_widget各个子窗口切换
+    connect(ui->pushButton_p,SIGNAL(pressed()),this,SLOT(on_PB_p_pressed()));
+    connect(ui->pushButton_q,SIGNAL(pressed()),this,SLOT(on_PB_q_pressed()));
+    connect(ui->pushButton_t,SIGNAL(pressed()),this,SLOT(on_PB_t_pressed()));
+
     //m_mainCtrl相关
     connect(m_mainCtrl, SIGNAL(getFriendsSuccess(QVector<FriendInformation>)),
             this, SLOT(setFriendListWidget(QVector<FriendInformation>)));//设置好友列表
@@ -182,8 +148,8 @@ void MainForm::linkSignalWithSlot(){
 //    connect(m_toolBtnNewMes, SIGNAL(clicked()),
 //            this, SLOT(showLatestMessageWidget()));//显示最新消息窗口
 
-//    connect(m_mainCtrl, SIGNAL(renameBoxSuccess(QString,QString)),
-//            this, SLOT(renameBoxSuccess(QString, QString)));//重命名分组成功
+    connect(m_mainCtrl, SIGNAL(renameBoxSuccess(QString,QString)),
+            this, SLOT(renameBoxSuccess(QString, QString)));//重命名分组成功
 //    connect(m_mainCtrl, SIGNAL(moveFriendToBoxSuccess(QString,QString,QString)),
 //            this, SLOT(moveFriendToBoxSuccess(QString,QString,QString)));//移动好友至其他分组
 
@@ -475,9 +441,10 @@ void MainForm::removeBox(const QString & title){
     //删除映射
     m_indexFriendsGroupMap.remove(title);
 
-    //待完成 2018.9.4
+    //消息管理界面的相应菜单显示有哪些好友分组
 //    if (m_messageManWidget != NULL)
 //        m_messageManWidget->setListModelGroup();
+    //好友按钮右键菜单刷新
 //    refreshFriendButtonMenu();
 }
 
@@ -504,23 +471,27 @@ void MainForm::renameBox(const QString & title)
 
     int index = m_indexFriendsGroupMap.value(title);
 
-    //待完成 2018.9.4
-//    if (m_listItemsFriendsVec[index]->getSize() <= 0)
-//    {
-//        renameBoxSuccess(title, newTitle);
-//        refreshFriendButtonMenu();
-//        return;
-//    }
 
-//    if (0 != newTitle.compare(title))
-//    {
-//        m_mainCtrl->renameBox(title, newTitle);
-//    }
+    if (m_listItemsFriendsVec[index]->getSize() <= 0)
+    {
+        //如果该分组中没有好友项，则直接修改组名及更新相应的容器
+        renameBoxSuccess(title, newTitle);
+        //好友按钮右键菜单刷新
+        //refreshFriendButtonMenu();
+        return;
+    }
+
+    //如果该分组有好友项，且修改后的名字与修改前不同
+    if (0 != newTitle.compare(title))
+    {
+        //向服务器发送相应的TCP消息
+        m_mainCtrl->renameBox(title, newTitle);
+    }
 }
 
 /*************************************************
 Function Name： renameBoxSuccess
-Description: 重命名分组成功
+Description: 重命名分组成功  当QQMainCtrl收到RENAME_BOX_SUCCESS类型的消息时会触发该槽函数
 *************************************************/
 void MainForm::renameBoxSuccess(const QString & title, const QString & newTitle)
 {
@@ -534,9 +505,10 @@ void MainForm::renameBoxSuccess(const QString & title, const QString & newTitle)
 
     m_friendsGroupList[m_friendsGroupList.indexOf(title)] = newTitle;
 
-    //待完成 2018.9.4
+    //消息管理界面的相应菜单显示有哪些好友分组
 //    if (m_messageManWidget != NULL)
 //        m_messageManWidget->setListModelGroup();
+    //好友按钮右键菜单刷新
     //refreshFriendButtonMenu();
 }
 
@@ -552,4 +524,28 @@ void MainForm::refreshFriendButtonMenu()
 //         iter.next();
 //         iter.value()->refreshMoveMenu();
 //     }
+}
+
+/*************************************************
+Function Name： on_PB_p_pressed
+Description: 切换到好友列表
+*************************************************/
+void MainForm::on_PB_p_pressed(){
+    ui->center_stack->setCurrentIndex(0);
+}
+
+/*************************************************
+Function Name： on_PB_q_pressed
+Description: 切换到群列表
+*************************************************/
+void MainForm::on_PB_q_pressed(){
+    ui->center_stack->setCurrentIndex(1);
+}
+
+/*************************************************
+Function Name： on_PB_t_pressed
+Description: 切换到消息列表
+*************************************************/
+void MainForm::on_PB_t_pressed(){
+    ui->center_stack->setCurrentIndex(2);
 }

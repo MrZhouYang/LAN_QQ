@@ -5,7 +5,7 @@
 #include <QPixmap>
 
 LitterIem::LitterIem(const FriendInformation &info, QList<QString> *groupList, MainForm *mainWidget, QWidget *parent):
-    QWidget(parent),m_info(info),m_mainWidget(mainWidget),m_groupList(groupList),
+    QWidget(parent),m_info(info),m_mainWidget(mainWidget),m_groupList(groupList),m_isOpen(false),m_isShow(false),
     ui(new Ui::LitterIem)
 {
     ui->setupUi(this);
@@ -18,9 +18,19 @@ LitterIem::~LitterIem()
     delete ui;
 }
 
-void LitterIem::mouseDoubleClickEvent(QMouseEvent *event){
-    //qDebug() << "鼠标双击";
+/*************************************************
+Function Name： mouseDoubleClickEvent
+Description: 鼠标双击事件
+*************************************************/
+void LitterIem::mouseDoubleClickEvent(QMouseEvent *event){   
+    if(event->button()==Qt::LeftButton){
+        //qDebug() << "鼠标左键双击";
+        //待完成 2018.9.5
+        openChatRoom();
 
+        return;
+    }
+    QWidget::mouseDoubleClickEvent(event);
 }
 
 /*************************************************
@@ -92,4 +102,23 @@ QString LitterIem::getStatusFromInt(const int n) const{
         return NULL;
 }
 
+/*************************************************
+Function Name： openChatRoom()
+Description: 打开聊天窗口
+*************************************************/
+void LitterIem::openChatRoom(){
+    if(m_isOpen)
+        return;
+    ChatInformation chatInf;
+    chatInf.m_myID = m_mainWidget->getLocalMyInformation().m_userID;
+    chatInf.m_headPortrait = m_info.m_headPortrait;
+    chatInf.m_friendID = m_info.m_userID;
+    chatInf.m_friendNickname = m_info.m_nickname;
+    chatInf.m_friendRemark = m_info.m_remarkName;
+    chatInf.m_friendStatus = m_info.m_status;
+
+    m_isOpen = true;
+    //待完成 2018.9.5
+
+}
 

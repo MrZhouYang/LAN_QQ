@@ -376,3 +376,34 @@ void QQMainCtrl::closeWindow()
         loginWidget->show();
     }
 }
+
+/*************************************************
+Function Name： renameBox
+Description: 重命名分组
+*************************************************/
+void QQMainCtrl::renameBox(const QString & oldTitle, const QString & newTitle)
+{
+    if (NULL == m_tcpSocket)
+        return;
+    if (m_tcpSocket->isConnected())
+        requestRenameBox(oldTitle, newTitle);
+}
+
+/*************************************************
+Function Name： requestRenameBox
+Description: 发送重命名分组的请求
+*************************************************/
+void QQMainCtrl::requestRenameBox(const QString & oldTitle, const QString & newTitle)
+{
+    if (NULL == m_tcpSocket)
+        return;
+    m_blockSize = 0;
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    //out.setVersion(QDataStream::Qt_5_9);
+    out << quint16(0) << int(RENAME_BOX) << m_myID << oldTitle << newTitle;
+    out.device()->seek(0);
+    out << quint16(block.size() - sizeof(quint16));
+    m_tcpSocket->write(block);
+}
+

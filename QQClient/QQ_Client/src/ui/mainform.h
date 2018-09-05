@@ -17,6 +17,7 @@
 #include "collapseviewitem.h"
 
 class QQMainCtrl;
+class LitterIem;
 
 namespace Ui {
 class MainForm;
@@ -27,7 +28,6 @@ class MainForm : public MoveableFramelessWindow
     Q_OBJECT
 
 public:
-    //explicit MainForm(QString userName,QString nickName,int port,QWidget *parent = 0);
     explicit MainForm( const UserInformation me, QWidget *parent = 0);
     ~MainForm();
 
@@ -114,6 +114,9 @@ private:
 private slots:
     void on_PB_minimize_clicked();
     void on_PB_shutdown_clicked();
+    void on_PB_p_pressed();
+    void on_PB_q_pressed();
+    void on_PB_t_pressed();
 
     void doChangeColor();
     void onThemeColorChange(QString colorStr);

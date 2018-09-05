@@ -12,6 +12,8 @@ Changes：
 #include "chatform.h"
 #include "qqConstant.h"
 #include <QMessageBox>
+#include <QMouseEvent>
+#include "mainform.h"
 
 
 class MainForm;
@@ -40,6 +42,13 @@ public:
     FriendInformation getInformation() const
     {	return m_info;	}
 
+    // 创建聊天窗口
+    void openChatRoom();
+    // 显示聊天窗口
+    void showChatRoom();
+    // 关闭聊天窗口
+    void closeChatRoom();
+
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event);
 
@@ -51,6 +60,11 @@ private:
     QList<QString> *m_groupList;
     //以字符串形式储存用户状态信息
     QString m_strStatus;
+
+    // 聊天窗口是否打开了
+    bool m_isOpen;
+    // 聊天窗口是否显示
+    bool m_isShow;
 
 //    ChatForm *chatform_p;
     // 将用户状态从数字形式转换为字符串形式

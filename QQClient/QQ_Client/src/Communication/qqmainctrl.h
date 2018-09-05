@@ -37,6 +37,8 @@ public:
                             const QString &remark);
     // 删除好友
     void deleteFriend(const QString & myID, const QString & friendID);
+    // 重命名分组
+    void renameBox(const QString &, const QString &);
 
 signals:
     void getFriendsSuccess(const QVector<FriendInformation> &);//case GET_ALL_FRIENDS_SUCCESS
@@ -70,6 +72,8 @@ public slots:
                                    const QString &remark);
     // 发送删除好友的请求
     void requestDeleteFriend(const QString & myID, const QString & friendID);
+    // 发送重命名分组的请求
+    void requestRenameBox(const QString &, const QString &);
 
 private:
     QString m_myID;
