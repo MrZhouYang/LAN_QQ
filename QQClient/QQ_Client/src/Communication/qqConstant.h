@@ -427,7 +427,7 @@ struct ChatInformation
 {
      QString m_myID;
 //     QString m_myNickname;
-    int m_headPortrait;
+    int m_headPortrait; //好友头像使用的图片的编号
     QString m_friendID;          // 好友id
     QString m_friendNickname;    // 好友昵称
     QString m_friendRemark;      // 好友备注
@@ -659,7 +659,7 @@ struct SaveTmpInformation
 
 
 //头像尺寸.
-const int HEAD_BIG_SIZE = 40;
+const int HEAD_BIG_SIZE = 42;
 const int HEAD_SMALL_SIZE = 35;
 const int HEAD_MINI_SIZE = 20;
 

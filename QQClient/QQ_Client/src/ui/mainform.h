@@ -18,6 +18,7 @@
 
 class QQMainCtrl;
 class LitterIem;
+class ChatForm;
 
 namespace Ui {
 class MainForm;
@@ -58,6 +59,10 @@ public:
     QStringList getGroupFriendList(const QString & groupName);
     // 设置在线人数
     void setOnlineCounter(int num);
+    // 插入好友聊天界面
+    void insertChatRoomMap(const QString &, ChatForm *);
+    // 删除存储于m_chatRoomMap中的聊天窗口
+    void removeChatWidget(const QString &);
 
 public slots:
     // 设置好友列表
@@ -68,6 +73,8 @@ public slots:
     void getFriendsInformation();
     // 重命名分组成功
     void renameBoxSuccess(const QString & title, const QString & newTitle);
+    // 获取好友发来的消息
+    //void receiveFriendTalkMessage(const TalkMessage &); //待完成 2018.09.06
 
 protected:
       QWidget*getDragnWidget();
@@ -86,10 +93,7 @@ private:
     //数据库
     QQDatabaseCtrl m_datebase;
 
-    /**
-    * @brief 用于保存目前存在的charform
-    */
-    QMap<QString, ChatForm *> chatform_map;
+    QMap<QString,ChatForm *> m_chatRoomMap; // 好友ID 与 聊天室 映射表
 
     QMap<QString, LitterIem *> m_friendMap; // 好友帐号 与 好友按钮 映射表
 
@@ -129,6 +133,8 @@ private slots:
     void removeBox(const QString &);
     // 重命名该好友组
     void renameBox(const QString &);
+    // 好友聊天窗口发送消息
+    void ChatFormSendMessage(TalkMessage &);
 
 
 };

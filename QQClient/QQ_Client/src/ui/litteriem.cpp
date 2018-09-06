@@ -24,10 +24,8 @@ Description: 鼠标双击事件
 *************************************************/
 void LitterIem::mouseDoubleClickEvent(QMouseEvent *event){   
     if(event->button()==Qt::LeftButton){
-        //qDebug() << "鼠标左键双击";
-        //待完成 2018.9.5
+        qDebug() << "鼠标左键双击";
         openChatRoom();
-
         return;
     }
     QWidget::mouseDoubleClickEvent(event);
@@ -118,7 +116,21 @@ void LitterIem::openChatRoom(){
     chatInf.m_friendStatus = m_info.m_status;
 
     m_isOpen = true;
-    //待完成 2018.9.5
-
+    m_chatForm = new ChatForm(chatInf);
+    m_mainWidget->insertChatRoomMap(chatInf.m_friendID,m_chatForm);
+    connect(m_chatForm,SIGNAL(sendMessagesFromChat(TalkMessage&)),m_mainWidget,SLOT(ChatFormSendMessage(TalkMessage&)));
+    connect(m_chatForm,SIGNAL(roomQuitSignal()),this,SLOT(chatRoomQuit()));
+    m_chatForm->show();
 }
 
+/*************************************************
+Function Name： chatRoomQuit()
+Description: 聊天室被关闭
+*************************************************/
+void LitterIem::chatRoomQuit()
+{
+    m_isOpen = false;
+    m_isShow = false;
+    if (NULL != m_mainWidget)
+        m_mainWidget->removeChatWidget(m_info.m_userID);
+}

@@ -16,6 +16,7 @@ Description： 用于控制聊天界面的类
 #include <QScrollBar>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QCloseEvent>
 
 
 #include "qqConstant.h"
@@ -32,26 +33,37 @@ public:
     explicit ChatForm(const ChatInformation &chatInf, QWidget *parent = 0);
     ~ChatForm();
 
+    // 将好友发来的信息添加到显示窗口
+    void appendMessageShow(const TalkMessage &mes);
+
 
 protected:
       QWidget*getDragnWidget();
+      //重载关闭事件
+      void closeEvent(QCloseEvent *event);
 
 private:
     Ui::ChatForm *ui;
 
     ChatInformation m_chatInfor;
+    TalkMessage m_mes;
 
     void initChatForm();
     void linkSignalWithSlot();
+    void saveHistoryMessage();//保存历史消息
+
 
 
 
 private slots:
     void on_PB_minimize_clicked();
     void on_PB_shutdown_clicked();
-//    void pb_send_clicked();
+    void pb_send_clicked();
 
 signals:
+    void sendMessagesFromChat(TalkMessage &); //点击发送按钮后将发送的消息作为参数释放出去
+    //退出信号 closerEvent()中会发出该信号
+    void roomQuitSignal();
 
 
 };

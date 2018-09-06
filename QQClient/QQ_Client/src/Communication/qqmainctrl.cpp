@@ -407,3 +407,45 @@ void QQMainCtrl::requestRenameBox(const QString & oldTitle, const QString & newT
     m_tcpSocket->write(block);
 }
 
+/*************************************************
+Function Name： sendTalkMessage
+Description: 发送聊天信息
+*************************************************/
+void QQMainCtrl::sendTalkMessage(TalkMessage &mes)
+{
+    mes.m_senderID = m_myID;
+    mes.m_senderIP = QQTcpSocket::getIP();
+    m_messageVector.push_back(mes);
+    if (NULL == m_tcpSocket)
+        return;
+    if (m_tcpSocket->isConnected())
+    {
+        requestSendTalkMessage();
+    }
+}
+
+/*************************************************
+Function Name： requestSendTalkMessage
+Description: 发送对话信息请求
+*************************************************/
+void QQMainCtrl::requestSendTalkMessage()
+{
+    if (NULL == m_tcpSocket)
+        return;
+
+    while (m_messageVector.size() > 0)
+    {
+        m_blockSize = 0;
+        QByteArray block;
+        QDataStream out(&block, QIODevice::WriteOnly);
+        //out.setVersion(QDataStream::Qt_5_9);
+        out << quint16(0) << int(TALK)
+            << m_messageVector.front();
+        out.device()->seek(0);
+        out << quint16(block.size() - sizeof(quint16));
+        m_tcpSocket->write(block);
+
+        m_messageVector.pop_front();
+    }
+}
+

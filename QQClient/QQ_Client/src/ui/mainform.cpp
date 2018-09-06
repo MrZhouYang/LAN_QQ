@@ -549,3 +549,36 @@ Description: 切换到消息列表
 void MainForm::on_PB_t_pressed(){
     ui->center_stack->setCurrentIndex(2);
 }
+
+
+/*************************************************
+Function Name： insertChatRoomMap()
+Description: 插入聊天室
+*************************************************/
+void MainForm::insertChatRoomMap(const QString &id, ChatForm *chatRoom)
+{
+    m_chatRoomMap.insert(id, chatRoom);
+}
+
+/*************************************************
+Function Name： ChatFormSendMessage
+Description:  好友聊天窗口发送消息
+*************************************************/
+void MainForm::ChatFormSendMessage(TalkMessage &mes){
+    mes.m_senderID = m_myself.m_userID;
+    if(TALK_MESSAGE==mes.m_type)
+        m_datebase.addHistoryMessage(mes);
+    if(NULL!=m_mainCtrl)
+        m_mainCtrl->sendTalkMessage(mes);
+}
+
+/*************************************************
+Function Name： removeChatWidget
+Description: 删除存储于m_chatRoomMap中的聊天窗口
+*************************************************/
+void MainForm::removeChatWidget(const QString &friendID)
+{
+    // mark
+    m_chatRoomMap[friendID]->deleteLater();
+    m_chatRoomMap.remove(friendID);
+}

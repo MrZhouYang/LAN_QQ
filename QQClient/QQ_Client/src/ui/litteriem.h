@@ -17,6 +17,7 @@ Changes：
 
 
 class MainForm;
+class ChatForm;
 
 namespace Ui {
 class LitterIem;
@@ -60,6 +61,7 @@ private:
     QList<QString> *m_groupList;
     //以字符串形式储存用户状态信息
     QString m_strStatus;
+    ChatForm *m_chatForm;
 
     // 聊天窗口是否打开了
     bool m_isOpen;
@@ -70,6 +72,9 @@ private:
     // 将用户状态从数字形式转换为字符串形式
     QString getStatusFromInt(const int n) const;
 
+private slots:
+    //聊天窗口关闭了
+    void chatRoomQuit();
 
 signals:
     void wake_message_to(int port, QString showname);
