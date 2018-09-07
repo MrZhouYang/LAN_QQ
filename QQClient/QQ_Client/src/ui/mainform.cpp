@@ -261,7 +261,7 @@ Description: 设置好友列表
 *************************************************/
 void MainForm::setFriendListWidget(const QVector<FriendInformation> &friendsVec)
 {
-    qDebug()<<"MainForm::setFriendListWidget 289行";
+    //qDebug()<<"MainForm::setFriendListWidget 289行";
     int num = 0;
     int len = friendsVec.size();
     for(int i=0; i<len; i++)
@@ -581,4 +581,25 @@ void MainForm::removeChatWidget(const QString &friendID)
     // mark
     m_chatRoomMap[friendID]->deleteLater();
     m_chatRoomMap.remove(friendID);
+}
+
+/*************************************************
+Function Name： removeLinkButton
+Description: 删除新消息连接按钮
+*************************************************/
+void MainForm::removeLinkButton(const QString & id)
+{
+    //待完成 2018.09.07
+//    if (m_linkMap.contains(id))
+//    {
+//        m_messageListWidget->removeItem(m_linkMap[id]);
+//        m_linkMap[id]->deleteLater();
+//        m_linkMap.remove(id);
+//        m_tabWidget->setTabText(3, QString(tr("新消息(%1)"))
+//                                .arg(m_messageListWidget->size()));
+//    }
+//    else
+//    {
+//        qDebug() << "there is some error in linkButton delete.";
+//    }
 }

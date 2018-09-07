@@ -39,6 +39,9 @@ void ChatForm::initChatForm()
     pixmap = icon.pixmap(QSize(HEAD_BIG_SIZE,HEAD_BIG_SIZE)); //设置图片大小为42*42
     ui->label_head->setPixmap(pixmap);
     ui->pb_nickName->setText(name);
+
+    //隐藏历史消息显示界面
+    ui->tb_historyshow->hide();
 }
 
 /*************************************************
@@ -49,6 +52,7 @@ void ChatForm::linkSignalWithSlot(){
     connect(ui->pb_minimize,SIGNAL(pressed()),this,SLOT(on_PB_minimize_clicked()));
     connect(ui->pb_shutdown,SIGNAL(pressed()),this,SLOT(on_PB_shutdown_clicked()));
     connect(ui->pb_send,SIGNAL(pressed()),this,SLOT(pb_send_clicked()));
+    connect(ui->pb_history, SIGNAL(clicked(bool)),this,SLOT(onClickBtnHistory(bool)));
 }
 
 QWidget *ChatForm::getDragnWidget()
@@ -92,13 +96,40 @@ Description:  保存历史记录
 *************************************************/
 void ChatForm::saveHistoryMessage()
 {
-    //待完成 2018.09.06
-//    QString filePath = LOCAL_HISTORY_MESSAGE_PATH;
-//    filePath.append(m_chatInfor.m_myID);
-//    QString fileName = QString("%1_%2_friend.imres")
-//            .arg(m_chatInfor.m_myID, m_chatInfor.m_friendID);
+    QString filePath = LOCAL_HISTORY_MESSAGE_PATH;
+    filePath.append(m_chatInfor.m_myID);
+    QString fileName = QString("%1_%2_friend.imres")
+            .arg(m_chatInfor.m_myID, m_chatInfor.m_friendID);
 
-    //IMClientFileCtrl::saveTalkHistory(filePath, fileName, m_tbMessageShow);
+    QQClientFileCtrl::saveTalkHistory(filePath,fileName,ui->textBrowser_show);
+}
+
+/*************************************************
+Function Name： readHistoryMessage()
+Description:  读取历史记录
+*************************************************/
+void ChatForm::readHistoryMessage()
+{
+    QString filePath = LOCAL_HISTORY_MESSAGE_PATH;
+    filePath.append(m_chatInfor.m_myID);
+    QString fileName = QString("%1_%2_friend.imres")
+            .arg(m_chatInfor.m_myID, m_chatInfor.m_friendID);
+
+    QQClientFileCtrl::readTalkHistory(filePath, fileName, ui->tb_historyshow);
+
+}
+
+/*************************************************
+Function Name： onClickBtnHistory()
+Description:  聊天历史记录
+*************************************************/
+void ChatForm::onClickBtnHistory(bool checked)
+{
+    ui->tb_historyshow->setHidden(!checked);
+    if (checked)
+    {
+        readHistoryMessage();
+    }
 }
 
 void ChatForm::pb_send_clicked()

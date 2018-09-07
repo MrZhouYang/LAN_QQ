@@ -70,7 +70,7 @@ void LoginForm::doLoginButClick()
     ui->lineEdit_pass->setReadOnly(true);
 
 
-    qDebug()<<"建立QQLoginCtrl";
+    //qDebug()<<"建立QQLoginCtrl";
     m_loginCtrl = new QQLoginCtrl(this);
     connect(m_loginCtrl, SIGNAL(getLoginMessgae(QString,bool,const UserInformation*)),
             this, SLOT(setLabelStatus(QString,bool,const UserInformation*)));
@@ -128,7 +128,7 @@ void LoginForm::setLabelStatus(const QString &mes, bool isLogin,
     {
         ui->pushButton_login->setEnabled(false);
         ui->pushButton_login->setText(tr("取消"));
-        qDebug() << "验证成功，可以弹出主界面了";
+        //qDebug() << "验证成功，可以弹出主界面了";
         //弹出主界面
         MainForm *mainWidget = new MainForm(*me);
         mainWidget->getFriendsInformation();

@@ -39,7 +39,6 @@ bool CollapseViewItem::eventFilter(QObject *watched, QEvent *event){
     if(event->type()==QEvent::MouseButtonPress && watched==ui->pushButton){
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         if(mouseEvent->button()==Qt::RightButton){
-            qDebug()<<"弹出右键菜单";
             onClickRightButton();
             return true; //停止转发
         }
@@ -151,7 +150,7 @@ Description:  重命名
 *************************************************/
 void CollapseViewItem::renameBox()
 {
-    qDebug() << "chose rename";
+    //qDebug() << "chose rename";
     emit renameBoxSignal(ui->pushButton->text());
 }
 
@@ -161,6 +160,6 @@ Description:  删除整个
 *************************************************/
 void CollapseViewItem::removeBox()
 {
-    qDebug() << "chose remove";
+    //qDebug() << "chose remove";
     emit removeBoxSignal(ui->pushButton->text());
 }

@@ -73,8 +73,10 @@ public slots:
     void getFriendsInformation();
     // 重命名分组成功
     void renameBoxSuccess(const QString & title, const QString & newTitle);
-    // 获取好友发来的消息
-    //void receiveFriendTalkMessage(const TalkMessage &); //待完成 2018.09.06
+    // 获取好友发来的消息 //待完成 2018.09.06
+    //void receiveFriendTalkMessage(const TalkMessage &);
+    // 删除新消息连接按钮
+    void removeLinkButton(const QString & id);
 
 protected:
       QWidget*getDragnWidget();

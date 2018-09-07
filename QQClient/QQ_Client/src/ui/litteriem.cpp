@@ -26,6 +26,8 @@ void LitterIem::mouseDoubleClickEvent(QMouseEvent *event){
     if(event->button()==Qt::LeftButton){
         qDebug() << "鼠标左键双击";
         openChatRoom();
+        //待完成 2018.09.07
+        m_mainWidget->removeLinkButton(m_info.m_userID);
         return;
     }
     QWidget::mouseDoubleClickEvent(event);

@@ -671,7 +671,7 @@ const int FONT_SIZE = 2;
 
 static const QString MAIL_ADDRESS_FORMAT = "@qq.com";
 
-static const QString LOCAL_HISTORY_MESSAGE_PATH = "resource/history/local/";
-static const QString NETWORK_HISTORY_MESSAGE_PATH = "resource/history/network/";
+static const QString LOCAL_HISTORY_MESSAGE_PATH = "./history/local/";
+static const QString NETWORK_HISTORY_MESSAGE_PATH = "./history/network/";
 
 #endif // QQCONSTANT_H

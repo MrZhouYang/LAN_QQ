@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>972</width>
-    <height>599</height>
+    <width>1227</width>
+    <height>567</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -123,8 +123,8 @@ QTextEdit{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>981</width>
-     <height>571</height>
+     <width>971</width>
+     <height>561</height>
     </rect>
    </property>
    <widget class="QWidget" name="layoutWidget">
@@ -192,7 +192,7 @@ QTextEdit{
          <string/>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>340</x>
@@ -314,6 +314,9 @@ QTextEdit{
              </property>
              <property name="text">
               <string/>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
             </widget>
             <widget class="QWidget" name="layoutWidget">
@@ -503,6 +506,65 @@ QTextEdit{
      </item>
     </layout>
    </widget>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>970</x>
+     <y>1</y>
+     <width>258</width>
+     <height>561</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>31</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <pointsize>9</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>消息记录</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTextBrowser" name="tb_historyshow">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
