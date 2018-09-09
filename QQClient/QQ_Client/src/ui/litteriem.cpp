@@ -26,6 +26,7 @@ void LitterIem::mouseDoubleClickEvent(QMouseEvent *event){
     if(event->button()==Qt::LeftButton){
         qDebug() << "鼠标左键双击";
         openChatRoom();
+        showChatRoom();
         //待完成 2018.09.07
         m_mainWidget->removeLinkButton(m_info.m_userID);
         return;
@@ -122,7 +123,18 @@ void LitterIem::openChatRoom(){
     m_mainWidget->insertChatRoomMap(chatInf.m_friendID,m_chatForm);
     connect(m_chatForm,SIGNAL(sendMessagesFromChat(TalkMessage&)),m_mainWidget,SLOT(ChatFormSendMessage(TalkMessage&)));
     connect(m_chatForm,SIGNAL(roomQuitSignal()),this,SLOT(chatRoomQuit()));
+}
+
+/*************************************************
+Function Name： showChatRoom()
+Description: 显示聊天窗口
+*************************************************/
+void LitterIem::showChatRoom()
+{
+    m_chatForm->raise();
+    m_chatForm->activateWindow();
     m_chatForm->show();
+    m_isShow = true;
 }
 
 /*************************************************

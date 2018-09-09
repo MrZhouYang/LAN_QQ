@@ -14,7 +14,8 @@ TEMPLATE = app
 INCLUDEPATH += ./src/model \
             ./src/ui \
             ./src/ui/Birthday \
-            ./src/Communication
+            ./src/Communication \
+            ./src/ui/LinkButton
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -51,7 +52,9 @@ SOURCES += main.cpp \
     src/Communication/QQLoginCtrl.cpp \
     src/Communication/qqdatabasectrl.cpp \
     src/Communication/QQClientFileCtrl.cpp \
-    src/Communication/qqmainctrl.cpp
+    src/Communication/qqmainctrl.cpp \
+    src/ui/LinkButton/qqlinkbutton.cpp \
+    src/ui/LinkButton/qqlinkfriendbutton.cpp
 
 HEADERS  += \
     src/model/config.h \
@@ -78,7 +81,9 @@ HEADERS  += \
     src/Communication/QQLoginCtrl.h \
     src/Communication/qqdatabasectrl.h \
     src/Communication/QQClientFileCtrl.h \
-    src/Communication/qqmainctrl.h
+    src/Communication/qqmainctrl.h \
+    src/ui/LinkButton/qqlinkbutton.h \
+    src/ui/LinkButton/qqlinkfriendbutton.h
 
 FORMS    += \
     src/ui/chatform.ui \
