@@ -10,7 +10,7 @@
 int MAIN_FORM_OADDING =10;
 
 MainForm::MainForm(const UserInformation me, QWidget *parent) :
-    MoveableFramelessWindow(parent),m_datebase(me.m_userID),
+    MoveableFramelessWindow(parent),m_database(me.m_userID),
     ui(new Ui::MainForm)
 {
     ui->setupUi(this);
@@ -18,6 +18,7 @@ MainForm::MainForm(const UserInformation me, QWidget *parent) :
     m_flag = 0;
     m_myself = me;
     m_onlineCounter = 0;
+    m_timerId = 0;
 
     InitQQMainWidget();
     linkSignalWithSlot();
@@ -26,8 +27,14 @@ MainForm::MainForm(const UserInformation me, QWidget *parent) :
 
 MainForm::~MainForm()
 {
-    if(m_datebase.isOpen()){
-        m_datebase.close();
+    // 关闭新消息提醒闪烁定时器
+    if (m_timerId != 0)
+    {
+        killTimer(m_timerId);
+        m_timerId = 0;
+    }
+    if(m_database.isOpen()){
+        m_database.close();
     }
 
     // 清空容器
@@ -45,7 +52,15 @@ void MainForm::InitQQMainWidget(){
     page4_layout->setSpacing(0);//This property holds the spacing between widgets inside the layout.
     ui->page_4->setLayout(page4_layout);
     page4_layout->addWidget(m_friendListWidget);
+    ui->center_stack->setCurrentIndex(0);
 
+    //创建容纳新消息提醒的窗口
+    m_messageListWidget = new QQLatestMessageListWidget(this,this);
+    page6_layout = new QVBoxLayout(this);
+    page6_layout->setContentsMargins(0,0,0,0);
+    page6_layout->setSpacing(0);
+    ui->page_6->setLayout(page6_layout);
+    page6_layout->addWidget(m_messageListWidget);
 
     //设置主界面用户昵称显示
     ui->label_nick->setText(m_myself.m_nickname);
@@ -58,7 +73,7 @@ void MainForm::InitQQMainWidget(){
 
     m_mainCtrl = new QQMainCtrl(m_myself.m_userID);
 
-    //待完成
+    //待完成 创建主窗口右键菜单
 
 
 //    page4_layout = new QVBoxLayout(this);
@@ -101,8 +116,10 @@ void MainForm::linkSignalWithSlot(){
             this, SLOT(setFriendListWidget(QVector<FriendInformation>)));//设置好友列表
 
 
-//    connect(m_mainCtrl, SIGNAL(getFriendTalkMessage(TalkMessage)),
-//            this, SLOT(receiveFriendTalkMessage(TalkMessage))); //获取好友发来的消息
+    connect(m_mainCtrl, SIGNAL(getFriendTalkMessage(TalkMessage)),
+            this, SLOT(receiveFriendTalkMessage(TalkMessage))); //获取好友发来的消息
+
+    connect(ui->pushButton_talk,SIGNAL(pressed()),this,SLOT(on_PB_talk_pressed())); //新消息提醒按钮按下，切换至新消息界面
 
 //    connect(m_mainCtrl, SIGNAL(getFriendChangedStatus(QString,int)),
 //            this, SLOT(setFriendStatus(QString,int))); //设置好友状态
@@ -156,8 +173,8 @@ void MainForm::linkSignalWithSlot(){
 //    connect(m_mainCtrl, SIGNAL(getNetworkHistoryMessagesSuccess(QString,QDate,QVector<TalkMessage>)),
 //            this, SLOT(setNetworkMessageWidget(QString,QDate,QVector<TalkMessage>)));//设置消息界面
 
-//    connect(m_messageListWidget, SIGNAL(timerStatus(bool)),
-//            this, SLOT(setTimerStatus(bool)));//设置显示有新消息的定时器
+    connect(m_messageListWidget, SIGNAL(timerStatus(bool)),
+            this, SLOT(setTimerStatus(bool)));//设置显示有新消息的定时器
 
 }
 
@@ -233,7 +250,6 @@ QStringList MainForm::getGroupFriendList(const QString & groupName)
     }
 
     int groupIndex = m_indexFriendsGroupMap[groupName];
-    //待完成
     CollapseViewItem *group = m_listItemsFriendsVec[groupIndex];
     const QList<QWidget *>* friendList = group->getWidgetList();
 
@@ -294,7 +310,7 @@ bool MainForm::addFriendButton(const FriendInformation & friInfo)
 
         CollapseViewItem *listItem = new CollapseViewItem(groupName);
 
-        //待完成 first
+        //待完成 槽函数中关于消息管理界面以及好友按钮右键菜单刷新还未完成
         connect(listItem, SIGNAL(removeBoxSignal(QString)),
                 this, SLOT(removeBox(QString)));
         connect(listItem, SIGNAL(renameBoxSignal(QString)),
@@ -518,12 +534,11 @@ Description: 刷新好友按钮右键菜单
 *************************************************/
 void MainForm::refreshFriendButtonMenu()
 {
-    //待完成 2018.9.4
-//    QMapIterator<QString, LitterIem *> iter(m_friendMap);
-//     while (iter.hasNext()) {
-//         iter.next();
-//         iter.value()->refreshMoveMenu();
-//     }
+    QMapIterator<QString, LitterIem *> iter(m_friendMap);
+     while (iter.hasNext()) {
+         iter.next();
+         iter.value()->refreshMoveMenu();
+     }
 }
 
 /*************************************************
@@ -567,7 +582,7 @@ Description:  好友聊天窗口发送消息
 void MainForm::ChatFormSendMessage(TalkMessage &mes){
     mes.m_senderID = m_myself.m_userID;
     if(TALK_MESSAGE==mes.m_type)
-        m_datebase.addHistoryMessage(mes);
+        m_database.addHistoryMessage(mes);
     if(NULL!=m_mainCtrl)
         m_mainCtrl->sendTalkMessage(mes);
 }
@@ -589,17 +604,111 @@ Description: 删除新消息连接按钮
 *************************************************/
 void MainForm::removeLinkButton(const QString & id)
 {
-    //待完成 2018.09.07
-//    if (m_linkMap.contains(id))
-//    {
-//        m_messageListWidget->removeItem(m_linkMap[id]);
-//        m_linkMap[id]->deleteLater();
-//        m_linkMap.remove(id);
-//        m_tabWidget->setTabText(3, QString(tr("新消息(%1)"))
-//                                .arg(m_messageListWidget->size()));
-//    }
-//    else
-//    {
-//        qDebug() << "there is some error in linkButton delete.";
-//    }
+    if (m_linkMap.contains(id))
+    {
+        m_messageListWidget->removeItem(m_linkMap[id]);
+        m_linkMap[id]->deleteLater();
+        m_linkMap.remove(id);
+//        m_tabWidget->setTabText(3, QString(tr("新消息(%1)")).arg(m_messageListWidget->size()));
+    }
+    else
+    {
+        qDebug() << "there is some error in linkButton delete.";
+    }
+}
+
+void MainForm::moveFriendToBox(const QString & friendID,
+                                   const QString & groupName,
+                                   const QString & title)
+{
+    if (NULL != m_mainCtrl)
+        m_mainCtrl->moveFriendToBox(friendID, groupName, title);
+}
+
+/*************************************************
+Function Name： setTimerStatus
+Description: 设置显示有新消息的定时器
+*************************************************/
+void MainForm::setTimerStatus(bool isOpen){
+    if(isOpen){
+        if(0 == m_timerId){
+            m_timerId = startTimer(400);//400ms闪烁一次
+            ui->pushButton_talk->setToolTip(tr("查阅最新消息"));//鼠标放到控件上，浮动出一个小黄框
+            ui->pushButton_talk->setStatusTip(QString(tr("有新消息")));//状态栏提示
+
+        }
+    }
+    else if(!isOpen && m_timerId !=0 ){
+        killTimer(m_timerId);//关闭m_timerId对应的定时器
+        m_timerId = 0;
+        ui->pushButton_talk->setToolTip(tr("无新消息"));//鼠标放到控件上，浮动出一个小黄框
+        ui->pushButton_talk->setStatusTip(QString(tr("无最新消息")));//状态栏提示
+        ui->pushButton_talk->setIcon(QIcon(":/sys/qq_tool_talk.png"));
+    }
+}
+
+/*************************************************
+Function Name： timerEvent
+Description: 定时器事件 用于控制新消息提示按钮闪烁
+*************************************************/
+void MainForm::timerEvent(QTimerEvent *event){
+    static bool show = true;
+    if(event->timerId() == m_timerId){
+        if(show)
+            ui->pushButton_talk->setIcon(QIcon(":/sys/qq_tool_talk.png"));
+        else
+            ui->pushButton_talk->setIcon(QIcon(""));
+
+        show = !show;
+    }
+}
+
+/*************************************************
+Function Name： receiveFriendTalkMessage
+Description: 获取好友发来的消息
+*************************************************/
+void MainForm::receiveFriendTalkMessage(const TalkMessage &mes){
+    //if (TALK_FLOCK == mes.m_type) 收到群消息
+    qDebug()<<"MainForm::receiveFriendTalkMessage";
+
+    //如果不是群消息，则是好友消息,就需要首先创建对应的聊天对话框，如果已经创建过，则获取创建好的聊天框的指针
+    ChatForm *chatRoom = NULL;
+    if( !m_friendMap.contains( mes.m_senderID ) ){
+        return; //如果消息来源不是本人的好友  直接返回
+    }
+
+    if(m_chatRoomMap.contains(mes.m_senderID)){
+        chatRoom = m_chatRoomMap[mes.m_senderID]; //如果与消息来源好友的对话框已经创建
+    }
+    else{
+        m_friendMap[mes.m_senderID]->openChatRoom(); //代用消息来源好友对应的好友item的创建聊天对话框函数
+        chatRoom = m_friendMap[mes.m_senderID]->getRoomPoint();
+    }
+
+    switch(mes.m_type){
+        case TALK_MESSAGE: // 聊天信息
+        {
+            chatRoom->appendMessageShow(mes); //将好友发来的消息显示到QTextBrowser上
+            m_database.addHistoryMessage(mes);
+            if( !m_friendMap[mes.m_senderID]->isRoomShow() ){
+                // 创建 IMLinkFriendButton
+                if( !m_linkMap.contains(mes.m_senderID) ){
+                    QQLinkFriendButton *btn = new QQLinkFriendButton(m_friendMap[mes.m_senderID],this);
+                    connect(btn,SIGNAL(deleteLinkButton(QString)),this,SLOT(removeLinkButton(QString)));
+                    m_linkMap.insert(mes.m_senderID,btn);
+                    m_messageListWidget->addItem(btn);
+                }
+                m_linkMap[mes.m_senderID]->setLatestMessage(mes);
+            }
+            break;
+        }
+    }
+}
+
+//新消息提醒按钮按下，切换至新消息界面
+void MainForm::on_PB_talk_pressed(){
+    if(!m_linkMap.empty()){
+        qDebug()<<"切换至新消息界面";
+        ui->center_stack->setCurrentIndex(2);
+    }
 }

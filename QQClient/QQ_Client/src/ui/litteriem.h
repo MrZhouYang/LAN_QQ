@@ -43,12 +43,35 @@ public:
     FriendInformation getInformation() const
     {	return m_info;	}
 
+    ChatForm *getRoomPoint() const
+    {
+        return m_chatForm;
+    }
+    bool isRoomOpen() const
+    {
+        return m_isOpen;
+    }
+    bool isRoomShow() const
+    {
+        return m_isShow;
+    }
+    void setChangedInformation(const FriendInformation & fri)
+    {
+        if (m_info.m_userID != fri.m_userID)
+            return;
+        m_info.m_headPortrait = fri.m_headPortrait;
+        m_info.m_nickname = fri.m_nickname;
+//        m_info.m_status = fri.m_status;
+    }
+
     // 创建聊天窗口
     void openChatRoom();
     // 显示聊天窗口
     void showChatRoom();
     // 关闭聊天窗口
     void closeChatRoom();
+    // 刷新菜单中分组信息
+    void refreshMoveMenu();
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event);
@@ -68,6 +91,10 @@ private:
     // 聊天窗口是否显示
     bool m_isShow;
 
+    //右键菜单
+    QMenu *m_menu;
+    QMenu *m_moveFriendMenu;
+
 //    ChatForm *chatform_p;
     // 将用户状态从数字形式转换为字符串形式
     QString getStatusFromInt(const int n) const;
@@ -75,6 +102,10 @@ private:
 private slots:
     //聊天窗口关闭了
     void chatRoomQuit();
+
+public slots:
+    // 移动好友至其他分组
+    void onClickMove();
 
 signals:
     void wake_message_to(int port, QString showname);

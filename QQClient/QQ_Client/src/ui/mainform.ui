@@ -891,7 +891,7 @@ QLineEdit#search{
           <item>
            <widget class="QStackedWidget" name="center_stack">
             <property name="currentIndex">
-             <number>0</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="page_4"/>
             <widget class="QWidget" name="page_5">
@@ -905,21 +905,7 @@ QLineEdit#search{
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="page_6">
-             <widget class="QPushButton" name="pushButton_10">
-              <property name="geometry">
-               <rect>
-                <x>11</x>
-                <y>175</y>
-                <width>258</width>
-                <height>28</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>PushButton</string>
-              </property>
-             </widget>
-            </widget>
+            <widget class="QWidget" name="page_6"/>
            </widget>
           </item>
          </layout>

@@ -27,7 +27,6 @@ void LitterIem::mouseDoubleClickEvent(QMouseEvent *event){
         qDebug() << "鼠标左键双击";
         openChatRoom();
         showChatRoom();
-        //待完成 2018.09.07
         m_mainWidget->removeLinkButton(m_info.m_userID);
         return;
     }
@@ -147,4 +146,45 @@ void LitterIem::chatRoomQuit()
     m_isShow = false;
     if (NULL != m_mainWidget)
         m_mainWidget->removeChatWidget(m_info.m_userID);
+}
+
+/*************************************************
+Function Name： refreshMoveMenu()
+Description: 刷新菜单中分组信息
+*************************************************/
+void LitterIem::refreshMoveMenu()
+{
+    if (m_menu == NULL || m_moveFriendMenu == NULL)
+    {
+        return;
+    }
+
+    m_moveFriendMenu->clear();//移除该菜单的所有action
+    QString groupName;
+    for (int i = 0; i<m_groupList->size(); ++i)
+    {
+        groupName = m_groupList->value(i);
+        if (0 != groupName.compare(m_info.m_groupName))
+        {
+            QAction * action = new QAction(groupName, m_moveFriendMenu);
+
+            //remakr: todo : 重载action triggered 的时候 发送自定义信号
+            m_moveFriendMenu->addAction(action);
+            connect(action, SIGNAL(triggered()),
+                        this, SLOT(onClickMove()));
+
+            // 或者弹出一个选择框
+        }
+    }
+}
+
+/*************************************************
+Function Name： onClickMove()
+Description: 移动好友至其他分组
+*************************************************/
+void LitterIem::onClickMove()
+{
+    QAction* action = dynamic_cast<QAction*>(sender());
+    m_mainWidget->moveFriendToBox(m_info.m_userID, m_info.m_groupName, action->text());
+//    qDebug() << action->text();
 }

@@ -70,6 +70,7 @@ void QQClientSocketCtrl::receiveMessage()
         }
         case TALK:
         {
+            qDebug()<<"QQClientSocketCtrl::receiveMessage()  case TALK";
             in >> m_save.m_message;
             break;
         }
@@ -377,6 +378,7 @@ void QQClientSocketCtrl::sendMessage(const SaveTmpInformation &temp)
             break;
         }
         case TALK:
+            qDebug()<<"QQClientSocketCtrl::sendMessage case TALK ";
             out << temp.m_message;
             break;
         case CHANGE_REMARK_SUCCESS:

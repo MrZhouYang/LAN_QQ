@@ -30,7 +30,7 @@ void QQLinkFriendButton::setButtonStatus()
 
     QPixmap pixmap;
     QIcon icon(str);
-    pixmap = icon.pixmap(QSize(HEAD_SMALL_SIZE, HEAD_SMALL_SIZE));
+    pixmap = icon.pixmap(QSize(HEAD_BIG_SIZE, HEAD_BIG_SIZE));
     m_labelHead->setPixmap(pixmap);
 
     text = QString("<font color=green>%1(%2)</font>").

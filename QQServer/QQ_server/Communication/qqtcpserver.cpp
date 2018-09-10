@@ -206,6 +206,7 @@ void QQTcpServer::sendMessage(const SaveTmpInformation &save)
         }
         case TALK:
         {
+            qDebug()<<"QQTcpServer::sendMessage  case TALK";
             talkRequest(save);
             break;
         }
@@ -965,6 +966,7 @@ void QQTcpServer::talkRequest(const SaveTmpInformation & save)
     {
     case TALK_MESSAGE:// == m_save.m_message.m_type)
     {
+        qDebug()<<"QQTcpServer::talkRequest() TALK_MESSAGE  m_receiverID="<<m_save.m_message.m_receiverID;
         m_save.m_replyKind = TALK;
         QMap<QString, QQClientSocketCtrl*>::iterator iter;
         iter = m_userMap.find(m_save.m_message.m_receiverID);
@@ -974,6 +976,7 @@ void QQTcpServer::talkRequest(const SaveTmpInformation & save)
 
         if(m_userMap.end() == iter)
         {
+            qDebug()<<"QQTcpServer::talkRequest() 消息目标用户不在线，存储离线消息到数据库";
             // 存储离线消息到数据库
             //m_database.messageRequest(m_save.message);
             m_database.addOfflineMessage(m_save.m_message);

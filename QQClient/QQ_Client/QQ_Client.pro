@@ -54,7 +54,8 @@ SOURCES += main.cpp \
     src/Communication/QQClientFileCtrl.cpp \
     src/Communication/qqmainctrl.cpp \
     src/ui/LinkButton/qqlinkbutton.cpp \
-    src/ui/LinkButton/qqlinkfriendbutton.cpp
+    src/ui/LinkButton/qqlinkfriendbutton.cpp \
+    src/ui/qqlatestmessagelistwidget.cpp
 
 HEADERS  += \
     src/model/config.h \
@@ -83,7 +84,8 @@ HEADERS  += \
     src/Communication/QQClientFileCtrl.h \
     src/Communication/qqmainctrl.h \
     src/ui/LinkButton/qqlinkbutton.h \
-    src/ui/LinkButton/qqlinkfriendbutton.h
+    src/ui/LinkButton/qqlinkfriendbutton.h \
+    src/ui/qqlatestmessagelistwidget.h
 
 FORMS    += \
     src/ui/chatform.ui \

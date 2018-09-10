@@ -41,6 +41,8 @@ public:
     void renameBox(const QString &, const QString &);
     // 发送好友聊天信息
     void sendTalkMessage(TalkMessage &);
+    // 移动好友至其他分组
+    void moveFriendToBox(const QString &, const QString &, const QString &);
 
 signals:
     void getFriendsSuccess(const QVector<FriendInformation> &);//case GET_ALL_FRIENDS_SUCCESS
@@ -54,6 +56,7 @@ signals:
     void renameBoxSuccess(const QString &, const QString &);//case RENAME_BOX_SUCCESS
     void moveFriendToBoxSuccess(const QString &, const QString &, const QString);//case MOVE_FRIEND_BOX_SUCCESS
     void closeWindowSignal();//case CHANGE_PWD_SUCCESS m_tcpSocket::disconnected()时均会释放该信号
+    void getFriendTalkMessage(const TalkMessage &);//case TALK
 
 
 public slots:
@@ -78,6 +81,9 @@ public slots:
     void requestRenameBox(const QString &, const QString &);
     // 发送好友对话信息请求
     void requestSendTalkMessage();
+    // 发送移动好友至其他分组的请求
+    void requestMoveFriendToBox(const QString & friendID, const QString & oldTitle,
+                                const QString & newTitle);
 
 private:
     QString m_myID;
@@ -101,6 +107,7 @@ private:
     QString m_newTitle;
 
     QVector<TalkMessage> m_messageVector;//保存发送的每一条消息的相关信息
+    TalkMessage m_message;
 
 };
 

@@ -39,7 +39,7 @@ void CollapseView::addItem(QWidget *item)
 {
     // Remove last spacer item if present.
     int count = m_layout->count();
-    qDebug()<<"CollapseView::addItem count="<<count;
+    //qDebug()<<"CollapseView::addItem count="<<count;
     if (count > 1)
     {
         m_layout->removeItem(m_layout->itemAt(count - 1));

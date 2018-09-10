@@ -42,6 +42,7 @@ void ChatForm::initChatForm()
 
     //隐藏历史消息显示界面
     ui->tb_historyshow->hide();
+    ui->label->hide();
 }
 
 /*************************************************
@@ -126,6 +127,7 @@ Description:  聊天历史记录
 void ChatForm::onClickBtnHistory(bool checked)
 {
     ui->tb_historyshow->setHidden(!checked);
+    ui->label->setHidden(!checked);
     if (checked)
     {
         readHistoryMessage();

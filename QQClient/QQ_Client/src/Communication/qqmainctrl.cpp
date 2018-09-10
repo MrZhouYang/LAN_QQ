@@ -271,12 +271,13 @@ void QQMainCtrl::readMessage()
             QMessageBox::information(NULL, tr("修改个人信息"), tr("修改个人信息成功"));
             break;
         }
-    //    case TALK:
-    //    {
-    //        in >> m_message;
-    //        emit getFriendTalkMessage(m_message);
-    //        break;
-    //    }
+        case TALK: //收到对话
+        {
+            qDebug()<<"QQMainCtrl::readMessage() case TALK emit getFriendTalkMessage(m_message)";
+            in >> m_message;
+            emit getFriendTalkMessage(m_message);
+            break;
+        }
         case CHANGE_STATUE: //改变自身状态
         {
             in >> m_peerID >> m_peerStatus;
@@ -449,3 +450,35 @@ void QQMainCtrl::requestSendTalkMessage()
     }
 }
 
+/*************************************************
+Function Name： moveFriendToBox
+Description:  移动好友至其他分组
+*************************************************/
+void QQMainCtrl::moveFriendToBox(const QString &friendID, const QString &oldTitle,
+                                 const QString & newTitle)
+{
+    if (NULL == m_tcpSocket)
+        return;
+    if (m_tcpSocket->isConnected())
+        requestMoveFriendToBox(friendID, oldTitle, newTitle);
+}
+
+/*************************************************
+Function Name： requestMoveFriendToBox
+Description:  请求移动好友至其他分组
+*************************************************/
+void QQMainCtrl::requestMoveFriendToBox(const QString & friendID,
+                                        const QString & oldTitle,
+                                        const QString & newTitle)
+{
+    if (NULL == m_tcpSocket)
+        return;
+    m_blockSize = 0;
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    //out.setVersion(QDataStream::Qt_5_9);
+    out << quint16(0) << int(MOVE_FRIEND_BOX) << m_myID << friendID << oldTitle << newTitle;
+    out.device()->seek(0);
+    out << quint16(block.size() - sizeof(quint16));
+    m_tcpSocket->write(block);
+}

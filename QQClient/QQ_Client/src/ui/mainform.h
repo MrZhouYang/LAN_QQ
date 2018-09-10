@@ -15,10 +15,15 @@
 #include "qqdatabasectrl.h"
 #include "qqmainctrl.h"
 #include "collapseviewitem.h"
+#include "qqlatestmessagelistwidget.h"
+#include "qqlinkbutton.h"
+#include "qqlinkfriendbutton.h"
 
 class QQMainCtrl;
 class LitterIem;
 class ChatForm;
+class QQLinkButton;
+class QQLatestMessageListWidget;
 
 namespace Ui {
 class MainForm;
@@ -74,12 +79,16 @@ public slots:
     // 重命名分组成功
     void renameBoxSuccess(const QString & title, const QString & newTitle);
     // 获取好友发来的消息 //待完成 2018.09.06
-    //void receiveFriendTalkMessage(const TalkMessage &);
+    void receiveFriendTalkMessage(const TalkMessage &mes);
     // 删除新消息连接按钮
     void removeLinkButton(const QString & id);
+    // 设置显示有新消息的定时器
+    void setTimerStatus(bool isOpen);
 
 protected:
       QWidget*getDragnWidget();
+
+      void timerEvent(QTimerEvent *event);
 
 private:
     Ui::MainForm *ui;
@@ -91,12 +100,16 @@ private:
 
     CollapseView *m_friendListWidget;//好友界面  用于保存好友列表选项卡
     QVBoxLayout *page4_layout;
+    QQLatestMessageListWidget *m_messageListWidget;
+    QVBoxLayout *page6_layout;
 
     //数据库
-    QQDatabaseCtrl m_datebase;
+    QQDatabaseCtrl m_database;
+    QVector<TalkMessage> m_localHistoryMessageVec;
+    QVector<TalkMessage> m_networkHistoryMessageVec;
 
-    QMap<QString,ChatForm *> m_chatRoomMap; // 好友ID 与 聊天室 映射表
 
+    QMap<QString,ChatForm *> m_chatRoomMap; // 好友ID 与 聊天对话框 映射表
     QMap<QString, LitterIem *> m_friendMap; // 好友帐号 与 好友按钮 映射表
 
     QStringList m_friendsGroupList;  // 分组名列表
@@ -105,7 +118,10 @@ private:
     QMap<QString, int> m_indexFriendsGroupMap; // 组名 与 下标 映射表
     QVector<CollapseViewItem *> m_listItemsFriendsVec;  // 存储每个分组选项卡的向量
 
+    QMap<QString, QQLinkButton*> m_linkMap; //ID 链接按钮 映射表
+
     int m_flag;
+    int m_timerId; //ID of timer
 
     void InitQQMainWidget();
     void linkSignalWithSlot();
@@ -123,6 +139,7 @@ private slots:
     void on_PB_p_pressed();
     void on_PB_q_pressed();
     void on_PB_t_pressed();
+    void on_PB_talk_pressed();//新消息提醒按钮按下
 
     void doChangeColor();
     void onThemeColorChange(QString colorStr);
@@ -137,6 +154,7 @@ private slots:
     void renameBox(const QString &);
     // 好友聊天窗口发送消息
     void ChatFormSendMessage(TalkMessage &);
+
 
 
 };
