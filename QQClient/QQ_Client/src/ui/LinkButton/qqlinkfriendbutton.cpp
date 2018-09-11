@@ -32,6 +32,7 @@ void QQLinkFriendButton::setButtonStatus()
     QIcon icon(str);
     pixmap = icon.pixmap(QSize(HEAD_BIG_SIZE, HEAD_BIG_SIZE));
     m_labelHead->setPixmap(pixmap);
+    m_labelHead->setScaledContents(true);
 
     text = QString("<font color=green>%1(%2)</font>").
             arg(m_info.m_userID).arg(mark);

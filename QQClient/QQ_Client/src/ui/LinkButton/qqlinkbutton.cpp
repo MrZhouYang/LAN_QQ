@@ -5,9 +5,10 @@ QQLinkButton::QQLinkButton(QWidget *parent):
 {
     QHBoxLayout *mainLayout = new QHBoxLayout;
     m_labelHead = new QLabel;
-    m_labelHead->setFixedSize(HEAD_SMALL_SIZE, HEAD_SMALL_SIZE);
+    m_labelHead->setMinimumSize(HEAD_BIG_SIZE, HEAD_BIG_SIZE);
     QVBoxLayout *rightLayout = new QVBoxLayout;
-    rightLayout->setContentsMargins(0,0,0,0);
+    rightLayout->setContentsMargins(6,6,0,6);
+    rightLayout->setSpacing(0);
     m_labelInfo = new QLabel;
     m_labelMes = new QLabel;
     rightLayout->addWidget(m_labelInfo);
@@ -16,10 +17,11 @@ QQLinkButton::QQLinkButton(QWidget *parent):
     mainLayout->addWidget(m_labelHead);
     mainLayout->addLayout(rightLayout);
     mainLayout->addStretch();
-    mainLayout->setContentsMargins(0,0,0,0);
+    mainLayout->setContentsMargins(12,6,11,6);
+    mainLayout->setSpacing(6);
     setLayout(mainLayout);
     //setMinimumSize(100,40);
-    setMinimumSize(277,60);
+    setMinimumHeight(60);
 
     m_menu = NULL;
 
