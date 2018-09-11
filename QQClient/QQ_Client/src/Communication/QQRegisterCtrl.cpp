@@ -21,6 +21,14 @@ QQRegisterCtrl::QQRegisterCtrl(QObject *parent) :
 
 QQRegisterCtrl::~QQRegisterCtrl()
 {
+        if (m_tcpSocket != nullptr)
+        {
+            if (m_tcpSocket->isConnected())
+                m_tcpSocket->abort();
+                m_tcpSocket->close();
+            delete m_tcpSocket;
+            m_tcpSocket = nullptr;
+        }
 }
 
 

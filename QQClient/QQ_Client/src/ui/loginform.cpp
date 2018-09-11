@@ -8,7 +8,7 @@
 
 
 LoginForm::LoginForm(QWidget *parent) :
-    MoveableFramelessWindow(parent),
+    MoveableFramelessWindow(parent),m_loginCtrl(nullptr),
     ui(new Ui::LoginForm)
 {
     ui->setupUi(this);
@@ -28,9 +28,9 @@ LoginForm::LoginForm(QWidget *parent) :
 
 LoginForm::~LoginForm()
 {
-    if(m_loginCtrl != NULL){
+    if(m_loginCtrl != nullptr){
         delete m_loginCtrl;
-        m_loginCtrl = NULL;
+        m_loginCtrl = nullptr;
     }
 
     delete ui;

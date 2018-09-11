@@ -3,12 +3,15 @@
 
 
 RegisterDialog::RegisterDialog(QWidget *parent) :
-    QDialog(parent),
+    QDialog(parent),m_regCtrl(nullptr),
     ui(new Ui::RegisterDialog)
 {
     ui->setupUi(this);
     ui->LE_Pwd->setEchoMode(QLineEdit::Password);
     setWindowTitle(tr("注册QQ帐号"));
+
+    //设置默认连接服务器IP和port
+    setServer(QString("127.0.0.1"),1234);
 
     connect(ui->PB_sure,SIGNAL(clicked()),this,SLOT(PB_sure_clicked()));
     connect(ui->PB_cancel,SIGNAL(clicked()),this,SLOT(PB_cancle_clicked()));
@@ -89,12 +92,12 @@ void RegisterDialog::PB_sure_clicked()
 
     if ( 0 == m_userInf.m_sex.compare("男"))
     {
-        m_userInf.m_headPortrait = 43;
+        m_userInf.m_headPortrait = 4;
     }
     else
-        m_userInf.m_headPortrait = 20;
+        m_userInf.m_headPortrait = 5;
 
-    if (m_regCtrl == NULL)
+    if (m_regCtrl == nullptr)
     {
         m_regCtrl = new QQRegisterCtrl;
         connect(m_regCtrl, SIGNAL(signalResetBtnRegister(bool)),
@@ -116,4 +119,17 @@ Description: 重置确定按钮
 void RegisterDialog::resetBtnSure(bool enable)
 {
     ui->PB_sure->setEnabled(enable);
+}
+
+/*************************************************
+Function Name： setServer()
+Description: 设置服务器信息
+Input：  ip地址，端口号
+Output： NULL
+Changes： NULL
+*************************************************/
+void RegisterDialog::setServer(QString ip, int port)
+{
+    QQTcpSocket::s_hostAddress = ip;
+    QQTcpSocket::s_hostPort = port;
 }

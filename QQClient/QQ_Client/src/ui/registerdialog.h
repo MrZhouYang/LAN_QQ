@@ -21,6 +21,8 @@ public:
     explicit RegisterDialog(QWidget *parent = 0);
     ~RegisterDialog();
 
+    void setServer(QString ip, int port);
+
 private:
     Ui::RegisterDialog *ui;
 
