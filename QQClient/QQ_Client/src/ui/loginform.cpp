@@ -28,6 +28,11 @@ LoginForm::LoginForm(QWidget *parent) :
 
 LoginForm::~LoginForm()
 {
+    if(m_loginCtrl != NULL){
+        delete m_loginCtrl;
+        m_loginCtrl = NULL;
+    }
+
     delete ui;
 }
 

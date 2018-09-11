@@ -24,7 +24,7 @@ Description: 鼠标双击事件
 *************************************************/
 void LitterIem::mouseDoubleClickEvent(QMouseEvent *event){   
     if(event->button()==Qt::LeftButton){
-        qDebug() << "鼠标左键双击";
+        //qDebug() << "鼠标左键双击";
         openChatRoom();
         showChatRoom();
         m_mainWidget->removeLinkButton(m_info.m_userID);

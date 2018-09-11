@@ -37,10 +37,10 @@ public:
     explicit MainForm( const UserInformation me, QWidget *parent = 0);
     ~MainForm();
 
-//    QQMainCtrl * getMainCtrl() const
-//    {
-//        return m_mainCtrl;
-//    }
+    QQMainCtrl * getMainCtrl() const
+    {
+        return m_mainCtrl;
+    }
 
     UserInformation getLocalMyInformation() const;
 
@@ -55,16 +55,16 @@ public:
     // 删除好友（发送至服务器）
     void deleteFriend(const QString &);
     // 删除存储于m_informationMap中的信息窗口
-    void removeInformationWidget(const QString &);
+    //void removeInformationWidget(const QString &);
     // 添加好友（发送至服务器）
-    void addFriend(const QString friendID);
+    //void addFriend(const QString friendID);
     // 移动好友至其他分组
     void moveFriendToBox(const QString & friendID, const QString & groupName, const QString &title);
     // 获取某个分组里所有好友的备注名列表
     QStringList getGroupFriendList(const QString & groupName);
     // 设置在线人数
     void setOnlineCounter(int num);
-    // 插入好友聊天界面
+    // 向m_chatRoomMap插入好友ID与开启的聊天窗口的记录
     void insertChatRoomMap(const QString &, ChatForm *);
     // 删除存储于m_chatRoomMap中的聊天窗口
     void removeChatWidget(const QString &);
@@ -78,12 +78,22 @@ public slots:
     void getFriendsInformation();
     // 重命名分组成功
     void renameBoxSuccess(const QString & title, const QString & newTitle);
-    // 获取好友发来的消息 //待完成 2018.09.06
+    // 获取好友发来的消息
     void receiveFriendTalkMessage(const TalkMessage &mes);
     // 删除新消息连接按钮
     void removeLinkButton(const QString & id);
     // 设置显示有新消息的定时器
     void setTimerStatus(bool isOpen);
+    // 设置好友状态  好友状态改变时服务器会发送消息触发该槽函数
+    void setFriendStatus(const QString &id, int status);
+    // 设置好友信息 好友信息改变时服务器会发送消息触发该槽函数
+    void setFriendInformation(const FriendInformation &fri);
+    // 设置好友备注
+    void setFriendRemark(const TempStrings&tempStr);
+    // 已删除好友
+    void deletedFriend(const QString &, const QString &, const QString &);
+    // 移动好友至其他分组
+    void moveFriendToBoxSuccess(const QString &, const QString &, const QString &);
 
 protected:
       QWidget*getDragnWidget();
@@ -104,7 +114,7 @@ private:
     QVBoxLayout *page6_layout;
 
     //数据库
-    QQDatabaseCtrl m_database;
+    QQDatabaseCtrl m_database; //用于处理历史消息
     QVector<TalkMessage> m_localHistoryMessageVec;
     QVector<TalkMessage> m_networkHistoryMessageVec;
 

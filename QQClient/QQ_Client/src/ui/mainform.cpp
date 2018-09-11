@@ -121,10 +121,10 @@ void MainForm::linkSignalWithSlot(){
 
     connect(ui->pushButton_talk,SIGNAL(pressed()),this,SLOT(on_PB_talk_pressed())); //新消息提醒按钮按下，切换至新消息界面
 
-//    connect(m_mainCtrl, SIGNAL(getFriendChangedStatus(QString,int)),
-//            this, SLOT(setFriendStatus(QString,int))); //设置好友状态
-//    connect(m_mainCtrl, SIGNAL(getFriendChangedInformation(FriendInformation)),
-//            this, SLOT(setFriendInformation(FriendInformation))); //设置好友信息
+    connect(m_mainCtrl, SIGNAL(getFriendChangedStatus(QString,int)),
+            this, SLOT(setFriendStatus(QString,int))); //设置好友状态 好友状态改变时服务器会发送消息触发该槽函数
+    connect(m_mainCtrl, SIGNAL(getFriendChangedInformation(FriendInformation)),
+            this, SLOT(setFriendInformation(FriendInformation))); //设置好友信息 好友信息改变时服务器会发送消息触发该槽函数
 
 //    connect(m_mainCtrl, SIGNAL(getFriendInformationSuccess(UserInformation)),
 //            this, SLOT(showFriendInformation(UserInformation)));//显示好友信息
@@ -138,10 +138,10 @@ void MainForm::linkSignalWithSlot(){
 
 //    connect(m_cbStatus, SIGNAL(currentIndexChanged(int)),
 //            this, SLOT(changeMyStatus(int)));//改变个人状态（发送至服务器）
-//    connect(m_mainCtrl, SIGNAL(changeFriendRemarkSuccess(TempStrings)),
-//            this, SLOT(setFriendRemark(TempStrings)));//设置好友备注
-//    connect(m_mainCtrl, SIGNAL(deleteFriendSuccess(QString, QString, QString)),
-//            this, SLOT(deletedFriend(QString, QString, QString)));//已删除好友
+    connect(m_mainCtrl, SIGNAL(changeFriendRemarkSuccess(TempStrings)),
+            this, SLOT(setFriendRemark(TempStrings)));//设置好友备注
+    connect(m_mainCtrl, SIGNAL(deleteFriendSuccess(QString, QString, QString)),
+            this, SLOT(deletedFriend(QString, QString, QString)));//已删除好友
 
 //    connect(m_mainCtrl, SIGNAL(getFriendRequest(TalkMessage, UserInformation)),
 //            this, SLOT(receiveFriendRequest(TalkMessage, UserInformation)));//接收并且处理好友的请求
@@ -167,8 +167,8 @@ void MainForm::linkSignalWithSlot(){
 
     connect(m_mainCtrl, SIGNAL(renameBoxSuccess(QString,QString)),
             this, SLOT(renameBoxSuccess(QString, QString)));//重命名分组成功
-//    connect(m_mainCtrl, SIGNAL(moveFriendToBoxSuccess(QString,QString,QString)),
-//            this, SLOT(moveFriendToBoxSuccess(QString,QString,QString)));//移动好友至其他分组
+    connect(m_mainCtrl, SIGNAL(moveFriendToBoxSuccess(QString,QString,QString)),
+            this, SLOT(moveFriendToBoxSuccess(QString,QString,QString)));//移动好友至其他分组
 
 //    connect(m_mainCtrl, SIGNAL(getNetworkHistoryMessagesSuccess(QString,QDate,QVector<TalkMessage>)),
 //            this, SLOT(setNetworkMessageWidget(QString,QDate,QVector<TalkMessage>)));//设置消息界面
@@ -711,4 +711,96 @@ void MainForm::on_PB_talk_pressed(){
         qDebug()<<"切换至新消息界面";
         ui->center_stack->setCurrentIndex(2);
     }
+}
+
+
+/*************************************************
+Function Name： setFriendStatus
+Description: 设置好友状态
+*************************************************/
+void MainForm::setFriendStatus(const QString &id, int status){
+    QMap<QString, LitterIem*>::iterator iter;
+    iter = m_friendMap.find(id);
+    //如果好友列表中不存在这个人，就直接返回
+    if(iter == m_friendMap.end())
+        return;
+    iter.value()->getInformation().m_status = status;
+    iter.value()->setItemStatus();
+}
+
+/*************************************************
+Function Name： setFriendInformation
+Description: 设置好友信息
+*************************************************/
+void MainForm::setFriendInformation(const FriendInformation &fri){
+    QMap<QString, LitterIem*>::iterator iter;
+    iter = m_friendMap.find(fri.m_userID);
+    if(m_friendMap.end()==iter){
+        return;
+    }
+
+    iter.value()->setChangedInformation(fri);
+    iter.value()->setItemStatus();
+}
+
+/*************************************************
+Function Name： setFriendRemark
+Description: 设置好友备注
+*************************************************/
+void MainForm::setFriendRemark(const TempStrings &tempStr){
+    if( tempStr.m_one != m_myself.m_userID )
+        return;
+    QMap<QString, LitterIem*>::iterator iter;
+    iter = m_friendMap.find(tempStr.m_two);
+    //如果好友列表中不存在这个人，就直接返回
+    if(m_friendMap.end() == iter)
+        return;
+
+    iter.value()->getInformation().m_remarkName = tempStr.m_three;
+    iter.value()->setItemStatus();
+}
+
+/*************************************************
+Function Name： deleteFriend
+Description: 已删除好友
+*************************************************/
+void MainForm::deletedFriend(const QString & myID, const QString & friendID,
+                                 const QString & groupName)
+{
+    if (myID != m_myself.m_userID)
+        return;
+
+
+    if (!m_friendMap.contains(friendID))
+        return;
+
+    m_listItemsFriendsVec[m_indexFriendsGroupMap.value(groupName)]->removeItem(m_friendMap[friendID]);
+    m_friendMap[friendID]->deleteLater();
+    m_friendMap.remove(friendID);
+
+    if (m_chatRoomMap.contains(friendID))
+    {
+        m_chatRoomMap[friendID]->close();
+        m_chatRoomMap[friendID]->deleteLater();
+        m_chatRoomMap.remove(friendID);
+    }
+
+    qDebug() << "friend deleted";
+    setOnlineCounter(m_onlineCounter - 1);
+}
+
+/*************************************************
+Function Name： moveFriendToBoxSuccess
+Description: 移动好友至其他分组
+*************************************************/
+void MainForm::moveFriendToBoxSuccess(const QString & friendID, const QString & title,
+                            const QString & newTitle)
+{
+    if (!m_friendMap.contains(friendID))
+        return;
+    m_listItemsFriendsVec[m_indexFriendsGroupMap.value(title)]->removeItem(m_friendMap[friendID]);
+
+    m_friendMap[friendID]->getInformation().m_groupName = newTitle;
+    m_friendMap[friendID]->refreshMoveMenu();
+    m_listItemsFriendsVec[m_indexFriendsGroupMap.value(newTitle)]->addSubItem(m_friendMap[friendID]);
 }

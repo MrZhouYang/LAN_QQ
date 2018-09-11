@@ -273,7 +273,7 @@ void QQMainCtrl::readMessage()
         }
         case TALK: //收到对话
         {
-            qDebug()<<"QQMainCtrl::readMessage() case TALK emit getFriendTalkMessage(m_message)";
+            //qDebug()<<"QQMainCtrl::readMessage() case TALK emit getFriendTalkMessage(m_message)";
             in >> m_message;
             emit getFriendTalkMessage(m_message);
             break;

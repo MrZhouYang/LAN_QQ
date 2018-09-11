@@ -37,9 +37,9 @@ public:
     explicit LitterIem(const FriendInformation &info, QList<QString> *groupList, MainForm *mainWidget, QWidget *parent = 0);
     ~LitterIem(); 
 
-    // 设置显示信息
-    void setItemStatus();
 
+    FriendInformation &getInformation()
+    {	return m_info;	}
     FriendInformation getInformation() const
     {	return m_info;	}
 
@@ -72,6 +72,9 @@ public:
     void closeChatRoom();
     // 刷新菜单中分组信息
     void refreshMoveMenu();
+    // 设置item显示信息
+    void setItemStatus();
+
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event);
