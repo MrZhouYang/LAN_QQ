@@ -73,7 +73,10 @@ void MainForm::InitQQMainWidget(){
 
     m_mainCtrl = new QQMainCtrl(m_myself.m_userID);
 
-    //待完成 创建主窗口右键菜单
+    //创建主窗口右键菜单
+    creatMenu();
+
+
 
 
 //    page4_layout = new QVBoxLayout(this);
@@ -97,6 +100,101 @@ Description: 初始化
 *************************************************/
 void MainForm::InitMainWidget(){
     m_mainCtrl = new QQMainCtrl(m_myself.m_userID);
+}
+
+/*************************************************
+Function Name： creatMenu
+Description: 创建右键菜单
+*************************************************/
+void MainForm:: creatMenu()
+{
+    m_menu = new QMenu(this);
+    QAction *addFriend = new QAction(tr("添加好友"), m_menu);
+    QAction *addFlock = new QAction(tr("添加群"), m_menu);
+    QAction *changePwd = new QAction(tr("修改密码"), m_menu);
+    QAction *information = new QAction(tr("个人信息"), m_menu);
+    QAction *manMes = new QAction(tr("消息管理"), m_menu);
+    QAction *mail = new QAction(tr("邮件管理"), m_menu);
+
+    //待完成 右键菜单中菜单项的槽函数
+    connect(addFriend, SIGNAL(triggered()),
+            this, SLOT(onClickAddFriend()));
+//    connect(addFlock, SIGNAL(triggered()),
+//            this, SLOT(onClickAddFlock()));
+//    connect(changePwd, SIGNAL(triggered()),
+//            this, SLOT(onClickChangePwd()));
+//    connect(information, SIGNAL(triggered()),
+//            this, SLOT(getMyInformation()));
+//    connect(manMes, SIGNAL(triggered()),
+//            this, SLOT(showMessageWidget())); //显示消息管理窗口
+//    connect(mail, SIGNAL(triggered()),
+//            this, SLOT(showMailWidget()));
+
+
+    m_menu->addAction(addFlock);
+    m_menu->addAction(addFriend);
+    m_menu->addAction(changePwd);
+    m_menu->addAction(information);
+    m_menu->addAction(manMes);
+    m_menu->addAction(mail);
+}
+
+/*************************************************
+Function Name： onClickAddFriend
+Description: 添加好友
+*************************************************/
+void MainForm::onClickAddFriend()
+{
+    bool isOk = false;
+    QString friendID = QInputDialog::getText(NULL, "添加好友",
+                                           "请输入对方帐号",
+                                           QLineEdit::Normal,
+                                           "",
+                                           &isOk);
+    if (!isOk)
+        return;
+
+    // mark
+    // 检验 是否全是 数字 或者 一开始就限制 或者 重写一个messagebox
+
+    addFriend(friendID);
+}
+
+/*************************************************
+Function Name： addFriend
+Description: 添加好友（发送至服务器）
+*************************************************/
+void MainForm::addFriend(const QString friendID)
+{
+    if (0 == friendID.compare(m_myself.m_userID))
+    {
+        QMessageBox::critical(NULL, tr("添加失败"), tr("不能添加自己"));
+        return;
+    }
+    if (m_friendMap.contains(friendID))
+    {
+        QMessageBox::critical(NULL, tr("添加失败"), tr("该用户已经是您的好友"));
+        return;
+    }
+
+    bool isOkMes = false;
+    QString checkMes = QInputDialog::getText(NULL, "添加好友",
+                                           "请输入验证信息",
+                                           QLineEdit::Normal,
+                                           QString(tr("你好,我是: %1")).
+                                             arg(m_myself.m_nickname),
+                                           &isOkMes);
+    if (!isOkMes)
+        return;
+
+    TalkMessage mes;
+    mes.m_senderID = m_myself.m_userID;
+    mes.m_receiverID = friendID;
+    mes.m_text = checkMes;
+    mes.m_type = REQUEST_FRIEND;
+
+    if (NULL != m_mainCtrl)
+        m_mainCtrl->addFriend(mes);
 }
 
 void MainForm::linkSignalWithSlot(){
@@ -160,8 +258,8 @@ void MainForm::linkSignalWithSlot(){
 
 //    connect(m_toolBtnMesBox, SIGNAL(clicked()),
 //            this, SLOT(showMessageWidget()));//显示消息管理窗口
-//    connect(m_toolBtnConfig, SIGNAL(clicked()),
-//            this, SLOT(onClickRightButton()));//右键点击按键
+    connect(ui->toolButton_config, SIGNAL(clicked()),
+            this, SLOT(onClickConfigToolButton()));//系统功能点击按键
 //    connect(m_toolBtnNewMes, SIGNAL(clicked()),
 //            this, SLOT(showLatestMessageWidget()));//显示最新消息窗口
 
@@ -176,6 +274,20 @@ void MainForm::linkSignalWithSlot(){
     connect(m_messageListWidget, SIGNAL(timerStatus(bool)),
             this, SLOT(setTimerStatus(bool)));//设置显示有新消息的定时器
 
+}
+
+/*************************************************
+Function Name： onClickConfigToolButton()
+Description: 系统功能按钮点击
+*************************************************/
+void MainForm::onClickConfigToolButton()
+{
+    if (m_menu == NULL)
+    {
+        //创建右键菜单
+        creatMenu();
+    }
+    m_menu->exec(QCursor::pos() - QPoint(105, 125));
 }
 
 /*************************************************
@@ -310,11 +422,11 @@ bool MainForm::addFriendButton(const FriendInformation & friInfo)
 
         CollapseViewItem *listItem = new CollapseViewItem(groupName);
 
-        //待完成 槽函数中关于消息管理界面以及好友按钮右键菜单刷新还未完成
+        //待完成 删除好友分组与重命名好友分组槽函数中关于消息管理界面以及好友按钮右键菜单刷新还未完成
         connect(listItem, SIGNAL(removeBoxSignal(QString)),
-                this, SLOT(removeBox(QString)));
+                this, SLOT(removeBox(QString))); //删除好友分组
         connect(listItem, SIGNAL(renameBoxSignal(QString)),
-                this, SLOT(renameBox(QString)));
+                this, SLOT(renameBox(QString))); //重命名该分组
 
         m_listItemsFriendsVec.push_back(listItem);
         m_friendListWidget->addItem(listItem);

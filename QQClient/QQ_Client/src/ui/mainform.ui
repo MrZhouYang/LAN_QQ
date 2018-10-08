@@ -925,6 +925,38 @@ QLineEdit#search{
            <height>60</height>
           </size>
          </property>
+         <widget class="QToolButton" name="toolButton_config">
+          <property name="geometry">
+           <rect>
+            <x>230</x>
+            <y>10</y>
+            <width>45</width>
+            <height>45</height>
+           </rect>
+          </property>
+          <property name="toolTip">
+           <string>系统管理</string>
+          </property>
+          <property name="statusTip">
+           <string>打开系统管理</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="../../rs/rs.qrc">
+            <normaloff>:/sys/config_toolbutton.png</normaloff>:/sys/config_toolbutton.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>40</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
         </widget>
        </item>
       </layout>

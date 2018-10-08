@@ -33,6 +33,7 @@
         <file>Chat/chat_sendpic.png</file>
         <file>Chat/chat_show.jpg</file>
         <file>img/log_setting.png</file>
+        <file>config_toolbutton.png</file>
     </qresource>
     <qresource prefix="/media/qun">
         <file>media/qun/1.png</file>

@@ -157,6 +157,36 @@ void QQMainCtrl::deleteFriend(const QString & myID, const QString & friendID)
 }
 
 /*************************************************
+Function Name： addFriend
+Description: 添加好友
+*************************************************/
+void QQMainCtrl::addFriend(const TalkMessage & mes)
+{
+    if (NULL == m_tcpSocket)
+        return;
+    if (m_tcpSocket->isConnected())
+        requestAddFriend(mes);
+}
+
+/*************************************************
+Function Name： requestAddFriend()
+Description: 发送添加好友的请求
+*************************************************/
+void QQMainCtrl::requestAddFriend(const TalkMessage & mes)
+{
+    if (NULL == m_tcpSocket)
+        return;
+    m_blockSize = 0;
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    //out.setVersion(QDataStream::Qt_5_9);
+    out << quint16(0) << int(ADD_FRIEND) << mes;
+    out.device()->seek(0);
+    out << quint16(block.size() - sizeof(quint16));
+    m_tcpSocket->write(block);
+}
+
+/*************************************************
 Function Name： requestDeleteFriend()
 Description: 发送删除好友的请求
 *************************************************/

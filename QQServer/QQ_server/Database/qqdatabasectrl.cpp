@@ -273,7 +273,7 @@ bool QQDatabaseCtrl::createConnection()
     else
     {// 如果没有，就添加
         *m_db = QSqlDatabase::addDatabase("QSQLITE", "serverIMDB");
-        m_db->setDatabaseName("D:/MyQTCode(Win32)/test/sqlmodel/serverIMDB.db");
+        m_db->setDatabaseName("serverIMDB");
     }
 
 //    m_db->setUserName("root");

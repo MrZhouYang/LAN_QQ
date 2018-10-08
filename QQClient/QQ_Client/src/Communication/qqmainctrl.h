@@ -37,6 +37,8 @@ public:
                             const QString &remark);
     // 删除好友
     void deleteFriend(const QString & myID, const QString & friendID);
+    // 添加好友
+    void addFriend(const TalkMessage & mes);
     // 重命名分组
     void renameBox(const QString &, const QString &);
     // 发送好友聊天信息
@@ -77,6 +79,8 @@ public slots:
                                    const QString &remark);
     // 发送删除好友的请求
     void requestDeleteFriend(const QString & myID, const QString & friendID);
+    // 发送添加好友的请求
+    void requestAddFriend(const TalkMessage & mes);
     // 发送重命名分组的请求
     void requestRenameBox(const QString &, const QString &);
     // 发送好友对话信息请求

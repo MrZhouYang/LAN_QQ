@@ -68,6 +68,8 @@ public:
     void insertChatRoomMap(const QString &, ChatForm *);
     // 删除存储于m_chatRoomMap中的聊天窗口
     void removeChatWidget(const QString &);
+    // 添加好友（发送至服务器）
+    void addFriend(const QString friendID);
 
 public slots:
     // 设置好友列表
@@ -94,6 +96,11 @@ public slots:
     void deletedFriend(const QString &, const QString &, const QString &);
     // 移动好友至其他分组
     void moveFriendToBoxSuccess(const QString &, const QString &, const QString &);
+
+    // 点击“添加好友”按钮
+    void onClickAddFriend();
+    //点击系统功能按钮
+    void onClickConfigToolButton();
 
 protected:
       QWidget*getDragnWidget();
@@ -133,9 +140,12 @@ private:
     int m_flag;
     int m_timerId; //ID of timer
 
+    QMenu *m_menu;//右键菜单
+
     void InitQQMainWidget();
     void linkSignalWithSlot();
     void InitMainWidget();
+    void creatMenu();//创建右键菜单
 
     //清空容器
     void clearContainers();
